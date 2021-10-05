@@ -1,44 +1,78 @@
 package client.networking;
 
+import com.google.gson.Gson;
 import shared.LoginObject;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class ClientSocket implements Client
 {
-  private Socket clientSocket;
-  private ObjectInputStream inputStream;
-  private ObjectOutputStream outputStream;
 
-  public ClientSocket(String host, int port)
-  {
-    try
-    {
-      clientSocket = new Socket(host, port);
-      System.out.println("connection established");
-
-      inputStream = new ObjectInputStream(clientSocket.getInputStream());
-      outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
-  }
+//  public static void main(String[] args)
+//  {
+//    login();
+//  }
+//
+//  private static void login()
+//  {
+//    String username = "bb";
+//    String password = "aaaa";
+//
+//    try
+//    {
+//      Socket clientSocket = new Socket("localhost", 4444);
+////      ObjectInputStream inputStream = new ObjectInputStream(clientSocket.getInputStream());
+////      ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+//      DataInputStream in = new DataInputStream(clientSocket.getInputStream());
+//      DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+//
+//      System.out.println("connection established ...");
+//
+//      //send login request
+//      Gson gson = new Gson();
+//      LoginObject loginObject = new LoginObject(username, password);
+//      String jsonRequest = gson.toJson(loginObject);
+//      out.writeUTF(jsonRequest);
+//      System.out.println(loginObject);
+//
+//      //receive message
+//      String serverReply = in.readUTF();
+//      System.out.println(serverReply);
+//    }
+//    catch (IOException e)
+//    {
+//      e.printStackTrace();
+//    }
+//  }
 
   @Override public void login(String username, String password)
   {
-    LoginObject loginObject = new LoginObject(username, password);
     try
     {
-      outputStream.writeObject(loginObject);
+      Socket clientSocket = new Socket("localhost", 4444);
+//      ObjectInputStream inputStream = new ObjectInputStream(clientSocket.getInputStream());
+//      ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+      DataInputStream in = new DataInputStream(clientSocket.getInputStream());
+      DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+
+      System.out.println("connection established ...");
+
+      //send login request
+      Gson gson = new Gson();
+      LoginObject loginObject = new LoginObject(username, password);
+      String jsonRequest = gson.toJson(loginObject);
+      out.writeUTF(jsonRequest);
+      System.out.println(loginObject);
+
+      //receive message
+      String serverReply = in.readUTF();
+      System.out.println(serverReply);
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
+
   }
 }

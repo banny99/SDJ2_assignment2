@@ -5,12 +5,18 @@ import client.model.LoginModelManager;
 
 public class ModelFactory
 {
+  private ClientFactory clientFactory;
+  public ModelFactory(ClientFactory cf)
+  {
+    clientFactory = cf;
+  }
+
   private LoginModel loginModel;
 
   public LoginModel getLoginModel()
   {
     if (loginModel==null)
-      loginModel = new LoginModelManager();
+      loginModel = new LoginModelManager(clientFactory.getClient());
     return loginModel;
   }
 }

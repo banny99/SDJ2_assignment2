@@ -1,3 +1,4 @@
+import client.core.ClientFactory;
 import client.core.ModelFactory;
 import client.core.ViewHandler;
 import client.core.ViewModelFactory;
@@ -8,8 +9,12 @@ public class ChatApp extends Application
 {
   @Override public void start(Stage stage) throws Exception
   {
-    ModelFactory mf = new ModelFactory();
+    ClientFactory cf = new ClientFactory();
+    //    ↓
+    ModelFactory mf = new ModelFactory(cf);
+    //    ↓
     ViewModelFactory vmf = new ViewModelFactory(mf);
+    //    ↓
     ViewHandler vh = new ViewHandler(vmf, stage);
   }
 }
