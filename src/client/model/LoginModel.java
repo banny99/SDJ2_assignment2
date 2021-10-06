@@ -1,6 +1,8 @@
 package client.model;
 
-public interface LoginModel
+import shared.Observable;
+
+public interface LoginModel extends Observable
 {
   void processLogin(String username, String password);
 }

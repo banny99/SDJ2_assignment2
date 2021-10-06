@@ -1,6 +1,8 @@
 package client.networking;
 
-public interface Client
+import shared.Observable;
+
+public interface Client extends Observable
 {
   void login(String username, String password);
 }

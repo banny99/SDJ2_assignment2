@@ -25,6 +25,7 @@ public class LoginViewController implements ViewController
     viewHandler = vh;
     loginViewModel = lvm;
 
+    //binding
     lb_error.textProperty().bind(loginViewModel.getErrorLabelProperty());
   }
 

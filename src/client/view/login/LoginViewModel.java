@@ -4,6 +4,8 @@ import client.model.LoginModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.beans.PropertyChangeEvent;
+
 public class LoginViewModel
 {
 
@@ -19,12 +21,18 @@ public class LoginViewModel
     this.loginModel = loginModel;
 
     errorLabel = new SimpleStringProperty();
+
+    //subscription
+    loginModel.addListener("login", this::onLoginReply);
   }
 
+  private void onLoginReply(PropertyChangeEvent evt)
+  {
+    errorLabel.set("back from server");
+  }
 
   public void loginBtnPressed(String username, String password)
   {
-    System.out.println(username + ":" + password +" ->from VM");
     loginModel.processLogin(username, password);
   }
 }
