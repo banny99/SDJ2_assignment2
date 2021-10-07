@@ -1,5 +1,8 @@
 package client.core;
 
+import client.view.chat.ChatViewController;
+import client.view.friendlist.FriendListViewController;
+import client.view.friendlist.FriendListViewModel;
 import client.view.login.LoginViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,17 +18,14 @@ public class ViewHandler
   private Stage primaryStage;
   private Scene currentScene;
 
-  private FXMLLoader fxmlLoader;
-
   public ViewHandler(ViewModelFactory vmf, Stage s){
     viewModelFactory = vmf;
 
-    fxmlLoader = new FXMLLoader();
     primaryStage = s;
     openView("login");
   }
 
-  private void openView(String whichView)
+  public void openView(String whichView)
   {
     switch (whichView){
       case "login":
@@ -34,6 +34,8 @@ public class ViewHandler
       case "chat":
         openChatView();
         break;
+      case "friendList":
+        openFriendListView();
       default:
         break;
     }
@@ -43,6 +45,7 @@ public class ViewHandler
   {
     try
     {
+      FXMLLoader fxmlLoader = new FXMLLoader();
       fxmlLoader.setLocation(getClass().getResource("../view/login/login.fxml"));
       Parent parent = fxmlLoader.load();
       LoginViewController loginViewController = fxmlLoader.getController();
@@ -50,6 +53,7 @@ public class ViewHandler
 
       currentScene = new Scene(parent);
       primaryStage.setScene(currentScene);
+      primaryStage.setTitle("Log In");
       primaryStage.show();
     }
     catch (IOException e)
@@ -57,10 +61,49 @@ public class ViewHandler
       e.printStackTrace();
       System.out.println("! ->wrong path");
     }
+  }
 
+  private void openFriendListView()
+  {
+    try
+    {
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(getClass().getResource("../view/friendlist/friendlist.fxml"));
+      Parent parent = fxmlLoader.load();
+      FriendListViewController friendListViewController = fxmlLoader.getController();
+      friendListViewController.init(this, viewModelFactory.getFriendListViewModel());
+
+      currentScene = new Scene(parent);
+      primaryStage.setScene(currentScene);
+      primaryStage.setTitle("Friend list");
+      primaryStage.show();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      System.out.println("! ->wrong path");
+    }
   }
 
   private void openChatView()
   {
+    try
+    {
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(getClass().getResource("../view/chat/chat.fxml"));
+      Parent parent = fxmlLoader.load();
+      ChatViewController chatViewController = fxmlLoader.getController();
+      chatViewController.init(this, viewModelFactory.getChatViewModel());
+
+      currentScene = new Scene(parent);
+      primaryStage.setScene(currentScene);
+      primaryStage.setTitle("Chat");
+      primaryStage.show();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      System.out.println("! ->wrong path");
+    }
   }
 }

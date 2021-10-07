@@ -39,10 +39,10 @@ public class ServerSocketThread implements Runnable
       String password = receivedLoginObject.getPassword();
 
       String reply;
-      if (username!=null && password!=null)
-        reply = "credentials approved";
+      if (username!="" && password!="")
+        reply = "approved";
       else
-        reply = "access denied";
+        reply = "denied";
 
       outputStream.writeUTF(reply);
       System.out.println(reply);

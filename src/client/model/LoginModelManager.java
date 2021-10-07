@@ -27,8 +27,8 @@ public class LoginModelManager implements LoginModel
 
   private void onLoginResponse(PropertyChangeEvent evt)
   {
-    changeSupport.firePropertyChange(evt);
     System.out.println("hello from model ");
+    changeSupport.firePropertyChange(evt);
   }
 
 
