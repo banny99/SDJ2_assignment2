@@ -1,6 +1,8 @@
 package server;
 
 import com.google.gson.Gson;
+import server.model.Password;
+import server.model.Username;
 import shared.LoginObject;
 
 import java.io.*;
@@ -27,22 +29,24 @@ public class ServerSocketThread implements Runnable
   @Override public void run()
   {
     System.out.println("Server communication-socket running ...");
-
     Gson gson = new Gson();
+
     try
     {
       String jsonRequest = inputStream.readUTF();
       LoginObject receivedLoginObject = gson.fromJson(jsonRequest, LoginObject.class);
       System.out.println(receivedLoginObject);
 
-      String username = receivedLoginObject.getUsername();
-      String password = receivedLoginObject.getPassword();
-
       String reply;
-      if (username!="" && password!="")
+      try
+      {
+        Username username = new Username(receivedLoginObject.getUsername());
+        Password password = new Password(receivedLoginObject.getPassword());
         reply = "approved";
-      else
-        reply = "denied";
+      }
+      catch (IllegalArgumentException e){
+        reply = e.getMessage();
+      }
 
       outputStream.writeUTF(reply);
       System.out.println(reply);

@@ -29,18 +29,13 @@ public class LoginViewModel implements Observable
     errorLabel = new SimpleStringProperty();
 
     //subscription
-    loginModel.addListener("login", this::onLoginReply);
+//    loginModel.addListener("login", this::onLoginReply);
   }
 
-  private void onLoginReply(PropertyChangeEvent evt)
-  {
-    errorLabel.set("back from server");
-    changeSupport.firePropertyChange(evt);
-  }
 
-  public void loginBtnPressed(String username, String password)
+  public String loginBtnPressed(String username, String password)
   {
-    loginModel.processLogin(username, password);
+    return loginModel.processLogin(username, password);
   }
 
 

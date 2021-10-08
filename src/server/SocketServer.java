@@ -14,6 +14,7 @@ public class SocketServer
       ServerSocket welcomeSocket = new ServerSocket(4444);
 
       while (true){
+        System.out.println("Server listening for client requests ...");
         Socket socket = welcomeSocket.accept();
         new Thread(new ServerSocketThread(socket)).start();
       }

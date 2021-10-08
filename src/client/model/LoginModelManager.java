@@ -16,19 +16,13 @@ public class LoginModelManager implements LoginModel
     client = c;
     changeSupport = new PropertyChangeSupport(this);
 
-    client.addListener("login", this::onLoginResponse);
+//    client.addListener("login", this::onLoginResponse);
   }
 
 
-  @Override public void processLogin(String username, String password)
+  @Override public String processLogin(String username, String password)
   {
-    client.login(username, password);
-  }
-
-  private void onLoginResponse(PropertyChangeEvent evt)
-  {
-    System.out.println("hello from model ");
-    changeSupport.firePropertyChange(evt);
+    return client.login(username, password);
   }
 
 

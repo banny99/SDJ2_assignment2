@@ -55,18 +55,11 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefHeight="3.0" prefWidth="480.0">
-               <children>
-                  <Label fx:id="lb_error" text="...">
-                     <HBox.margin>
-                        <Insets left="100.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
+            <Label fx:id="messageLabel" prefHeight="17.0" prefWidth="481.0" text="Message: " textFill="#b30000" visible="false">
                <VBox.margin>
-                  <Insets top="5.0" />
+                  <Insets left="95.0" right="5.0" top="10.0" />
                </VBox.margin>
-            </HBox>
+            </Label>
             <HBox alignment="CENTER" prefHeight="25.0" prefWidth="349.0">
                <children>
                   <Button fx:id="btn_login" alignment="CENTER" mnemonicParsing="false" onAction="#onLoginBtnPressed" text="Log-in" />

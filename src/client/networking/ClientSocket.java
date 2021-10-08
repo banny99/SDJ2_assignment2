@@ -18,8 +18,10 @@ public class ClientSocket implements Client
     changeSupport = new PropertyChangeSupport(this);
   }
 
-  @Override public void login(String username, String password)
+  @Override public String login(String username, String password)
   {
+    String serverReply = "denied";
+
     try
     {
       Socket clientSocket = new Socket("localhost", 4444);
@@ -38,16 +40,14 @@ public class ClientSocket implements Client
       System.out.println(loginObject);
 
       //receive message
-      String serverReply = in.readUTF();
-      System.out.println(serverReply);
-
-      changeSupport.firePropertyChange("login", null, serverReply);
+      serverReply = in.readUTF();
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
 
+    return serverReply;
   }
 
   @Override public void addListener(String eventName,
