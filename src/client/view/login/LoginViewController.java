@@ -38,7 +38,9 @@ public class LoginViewController implements ViewController
 
     if (reply.equals("approved"))
     {
-      viewHandler.openView("friendList");
+      System.out.println("logged in");
+//      viewHandler.openView("friendList");
+      viewHandler.openView("chat");
     }
     else
     {

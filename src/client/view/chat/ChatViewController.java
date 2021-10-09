@@ -5,9 +5,13 @@ import client.view.ViewController;
 import client.view.friendlist.FriendListViewModel;
 import client.view.login.LoginViewModel;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 
 public class ChatViewController implements ViewController
 {
+
+  @FXML private TextArea chatTextField;
 
   private ViewHandler viewHandler;
   private ChatViewModel chatViewModel;
@@ -20,6 +24,8 @@ public class ChatViewController implements ViewController
 
   public void sendMsgButtonPressed(ActionEvent actionEvent)
   {
+    chatViewModel.sendMessage(chatTextField.getText());
+    chatTextField.clear();
   }
 
 

@@ -2,7 +2,7 @@ package client.networking;
 
 import com.google.gson.Gson;
 import shared.LoginObject;
-import shared.Observable;
+import shared.MessageObject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -13,9 +13,28 @@ public class ClientSocket implements Client
 {
   private final PropertyChangeSupport changeSupport;
 
+  private Socket clientSocket;
+  private DataInputStream in;
+  private DataOutputStream out;
+
+  private Gson gson;
+
   public ClientSocket()
   {
     changeSupport = new PropertyChangeSupport(this);
+    gson = new Gson();
+
+    try
+    {
+      clientSocket = new Socket("localhost", 4444);
+      in = new DataInputStream(clientSocket.getInputStream());
+      out = new DataOutputStream(clientSocket.getOutputStream());
+      System.out.println("connection established ...");
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   @Override public String login(String username, String password)
@@ -24,22 +43,13 @@ public class ClientSocket implements Client
 
     try
     {
-      Socket clientSocket = new Socket("localhost", 4444);
-//      ObjectInputStream inputStream = new ObjectInputStream(clientSocket.getInputStream());
-//      ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-      DataInputStream in = new DataInputStream(clientSocket.getInputStream());
-      DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
-
-      System.out.println("connection established ...");
-
       //send login request
-      Gson gson = new Gson();
       LoginObject loginObject = new LoginObject(username, password);
       String jsonRequest = gson.toJson(loginObject);
       out.writeUTF(jsonRequest);
-      System.out.println(loginObject);
 
       //receive message
+      System.out.println(loginObject);
       serverReply = in.readUTF();
     }
     catch (IOException e)
@@ -48,6 +58,24 @@ public class ClientSocket implements Client
     }
 
     return serverReply;
+  }
+
+  @Override public void sendMessage(String msg)
+  {
+    try
+    {
+      MessageObject messageObject = new MessageObject(msg);
+      String jsonRequest = gson.toJson(messageObject);
+      out.writeUTF(jsonRequest);
+
+      String jsonReply = in.readUTF();
+      messageObject = gson.fromJson(jsonReply, MessageObject.class);
+      System.out.println(messageObject);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
   }
 
   @Override public void addListener(String eventName,

@@ -24,7 +24,7 @@ public class ViewModelFactory
   private ChatViewModel chatViewModel;
   public ChatViewModel getChatViewModel(){
     if (chatViewModel == null)
-      chatViewModel = new ChatViewModel();
+      chatViewModel = new ChatViewModel(modelFactory.getChatModel());
     return chatViewModel;
   }
 

@@ -5,4 +5,5 @@ import shared.Observable;
 public interface Client extends Observable
 {
   String login(String username, String password);
+  void sendMessage(String msg);
 }

@@ -1,8 +1,6 @@
 package client.model;
 
 import client.networking.Client;
-
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
