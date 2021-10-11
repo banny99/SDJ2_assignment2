@@ -59,24 +59,64 @@ public class ClientSocket implements Client
 
     return serverReply;
   }
+  @Override public String login(LoginObject lo)
+  {
+    String serverReply = "denied";
+
+    try
+    {
+      //send login request
+      String jsonRequest = gson.toJson(lo);
+      out.writeUTF(jsonRequest);
+
+      //receive message
+      serverReply = in.readUTF();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+
+    return serverReply;
+  }
 
   @Override public void sendMessage(String msg)
   {
     try
     {
-      MessageObject messageObject = new MessageObject(msg);
+      MessageObject messageObject = new MessageObject(msg, "username");
       String jsonRequest = gson.toJson(messageObject);
       out.writeUTF(jsonRequest);
 
       String jsonReply = in.readUTF();
       messageObject = gson.fromJson(jsonReply, MessageObject.class);
       System.out.println(messageObject);
+      changeSupport.firePropertyChange("chat", null, messageObject);
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
   }
+
+  @Override public void sendMessage(MessageObject messageObject)
+  {
+    try
+    {
+      String jsonRequest = gson.toJson(messageObject);
+      out.writeUTF(jsonRequest);
+
+      String jsonReply = in.readUTF();
+      messageObject = gson.fromJson(jsonReply, MessageObject.class);
+      System.out.println(messageObject);
+      changeSupport.firePropertyChange("chat", null, messageObject);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
 
   @Override public void addListener(String eventName,
       PropertyChangeListener listener)

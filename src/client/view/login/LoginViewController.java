@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import shared.LoginObject;
 
 public class LoginViewController implements ViewController
 {
@@ -34,13 +35,17 @@ public class LoginViewController implements ViewController
 
   public void onLoginBtnPressed(ActionEvent actionEvent)
   {
-    String reply = loginViewModel.loginBtnPressed(tf_username.getText(), tf_password.getText());
+    LoginObject loginObject = new LoginObject(tf_username.getText(), tf_password.getText());
+    String reply = loginViewModel.loginBtnPressed(loginObject);
+//    String reply = loginViewModel.loginBtnPressed(tf_username.getText(), tf_password.getText());
 
     if (reply.equals("approved"))
     {
       System.out.println("logged in");
 //      viewHandler.openView("friendList");
-      viewHandler.openView("chat");
+//      viewHandler.openView("chat");
+      viewHandler.openChatView(loginObject);
+
     }
     else
     {

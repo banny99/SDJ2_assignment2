@@ -3,6 +3,7 @@ package client.view.login;
 import client.model.LoginModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import shared.LoginObject;
 import shared.Observable;
 
 import java.beans.PropertyChangeEvent;
@@ -36,6 +37,10 @@ public class LoginViewModel implements Observable
   public String loginBtnPressed(String username, String password)
   {
     return loginModel.processLogin(username, password);
+  }
+  public String loginBtnPressed(LoginObject lo)
+  {
+    return loginModel.processLogin(lo);
   }
 
 

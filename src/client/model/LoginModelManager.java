@@ -1,6 +1,8 @@
 package client.model;
 
 import client.networking.Client;
+import shared.LoginObject;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -21,6 +23,10 @@ public class LoginModelManager implements LoginModel
   @Override public String processLogin(String username, String password)
   {
     return client.login(username, password);
+  }
+  @Override public String processLogin(LoginObject lo)
+  {
+    return client.login(lo);
   }
 
 

@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import shared.LoginObject;
 
 import java.io.IOException;
 
@@ -94,6 +95,28 @@ public class ViewHandler
       Parent parent = fxmlLoader.load();
       ChatViewController chatViewController = fxmlLoader.getController();
       chatViewController.init(this, viewModelFactory.getChatViewModel());
+
+      currentScene = new Scene(parent);
+      primaryStage.setScene(currentScene);
+      primaryStage.setTitle("Chat");
+      primaryStage.show();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      System.out.println("! ->wrong path");
+    }
+  }
+
+  public void openChatView(LoginObject loginObject)
+  {
+    try
+    {
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(getClass().getResource("../view/chat/chat.fxml"));
+      Parent parent = fxmlLoader.load();
+      ChatViewController chatViewController = fxmlLoader.getController();
+      chatViewController.init(this, viewModelFactory.getChatViewModel(), loginObject);
 
       currentScene = new Scene(parent);
       primaryStage.setScene(currentScene);

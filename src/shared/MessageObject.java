@@ -1,26 +1,32 @@
 package shared;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.sql.Time;
 
 public class MessageObject implements Serializable
 {
-  private String msg;
-//  private Timestamp timestamp;
+  private String messageText;
+  private Time messageTimeStamp;
+  private String username;
 
-  public MessageObject(String msg)
+  public MessageObject(String msg, String username)
   {
-    this.msg = msg;
-//    timestamp = Timestamp.now ...?
+    messageText = msg;
+    messageTimeStamp = new Time(System.currentTimeMillis());
+    this.username = username;
   }
 
-  public String getMsg()
+  public String getMessageText()
   {
-    return msg;
+    return username + ":\n" + messageText;
+  }
+  public Time getMessageTimeStamp()
+  {
+    return messageTimeStamp;
   }
 
   @Override public String toString()
   {
-    return "MessageObject{" + "msg='" + msg + '\'' + '}';
+    return "MessageObject{" + "messageText='" + messageText + '\'' + '}';
   }
 }
