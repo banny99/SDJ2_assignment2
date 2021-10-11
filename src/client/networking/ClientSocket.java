@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import shared.FriendListObject;
 import shared.LoginObject;
 import shared.MessageObject;
+import shared.TransferObject;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -46,7 +47,8 @@ public class ClientSocket implements Client
     try
     {
       //send login request
-      String jsonRequest = gson.toJson(lo);
+      TransferObject transferObject = new TransferObject("LO", gson.toJson(lo));
+      String jsonRequest = gson.toJson(transferObject);
       out.writeUTF(jsonRequest);
 
       //receive logIn message
@@ -61,6 +63,37 @@ public class ClientSocket implements Client
   }
 
 
+  @Override public void requestCurrFriendList()
+  {
+    try
+    {
+//      String friendListRequest = "friendListRequest";
+//      out.writeUTF(friendListRequest);
+
+      String jsonFriendList = in.readUTF();
+      FriendListObject tempFriendListObject = gson.fromJson(jsonFriendList, FriendListObject.class);
+      System.out.println(tempFriendListObject + " -from client");
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+
+//    while (true){
+//      try
+//      {
+//        String jsonFriendList = in.readUTF();
+//        FriendListObject tempFriendListObject = gson.fromJson(jsonFriendList, FriendListObject.class);
+//        System.out.println(tempFriendListObject + " -from client");
+//      }
+//      catch (IOException e)
+//      {
+//        e.printStackTrace();
+//      }
+//    }
+  }
+
+
   @Override public void sendMessage(MessageObject messageObject)
   {
     try
@@ -72,23 +105,6 @@ public class ClientSocket implements Client
       messageObject = gson.fromJson(jsonReply, MessageObject.class);
       System.out.println(messageObject);
       changeSupport.firePropertyChange("chat", null, messageObject);
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
-  }
-
-  @Override public void requestCurrFriendList()
-  {
-    try
-    {
-      String friendListRequest = "friendListRequest";
-      out.writeUTF(friendListRequest);
-
-      String jsonFriendList = in.readUTF();
-      FriendListObject tempFriendListObject = gson.fromJson(jsonFriendList, FriendListObject.class);
-      System.out.println(tempFriendListObject + "from client");
     }
     catch (IOException e)
     {

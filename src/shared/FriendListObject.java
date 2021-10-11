@@ -4,14 +4,19 @@ import java.util.ArrayList;
 
 public class FriendListObject
 {
-  private ArrayList<Long> friendList;
-  public FriendListObject(ArrayList<Long> friendList)
+  private ArrayList<String> friendListNames;
+  public FriendListObject(ArrayList<String> friendList)
   {
-    this.friendList = friendList;
+    this.friendListNames = friendList;
   }
 
-  public ArrayList<Long> getFriendList()
+  public ArrayList<String> getFriendList()
   {
-    return friendList;
+    return friendListNames;
+  }
+
+  @Override public String toString()
+  {
+    return "FriendListObject{" + "friendListNames=" + friendListNames + '}';
   }
 }

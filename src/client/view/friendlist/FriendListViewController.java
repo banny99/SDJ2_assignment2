@@ -32,7 +32,7 @@ public class FriendListViewController implements ViewController
   {
     friendListViewModel.requestCurrFriendList();
   }
-
+  //btn-action
   public void updateTable(ActionEvent actionEvent)
   {
     updateCurrFriendList();
