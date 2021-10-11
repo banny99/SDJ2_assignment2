@@ -1,9 +1,6 @@
 package client.core;
 
-import client.model.ChatModelManager;
-import client.model.LoginModel;
-import client.model.LoginModelManager;
-import client.model.Model;
+import client.model.*;
 
 public class ModelFactory
 {
@@ -27,5 +24,13 @@ public class ModelFactory
     if (chatModel == null)
       chatModel = new ChatModelManager(clientFactory.getClient());
     return chatModel;
+  }
+
+  private FriendListModel friendListModel;
+  public FriendListModel getFriendListModel()
+  {
+    if (friendListModel == null)
+      friendListModel = new FriendListModelManager(clientFactory.getClient());
+    return friendListModel;
   }
 }

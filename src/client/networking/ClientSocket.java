@@ -1,6 +1,7 @@
 package client.networking;
 
 import com.google.gson.Gson;
+import shared.FriendListObject;
 import shared.LoginObject;
 import shared.MessageObject;
 
@@ -8,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ClientSocket implements Client
 {
@@ -69,7 +71,7 @@ public class ClientSocket implements Client
       String jsonRequest = gson.toJson(lo);
       out.writeUTF(jsonRequest);
 
-      //receive message
+      //receive logIn message
       serverReply = in.readUTF();
     }
     catch (IOException e)
@@ -117,13 +119,29 @@ public class ClientSocket implements Client
     }
   }
 
+  @Override public void requestCurrFriendList()
+  {
+    try
+    {
+      String friendListRequest = "friendListRequest";
+      out.writeUTF(friendListRequest);
+
+      String jsonFriendList = in.readUTF();
+      FriendListObject tempFriendListObject = gson.fromJson(jsonFriendList, FriendListObject.class);
+      System.out.println(tempFriendListObject + "from client");
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+
 
   @Override public void addListener(String eventName,
       PropertyChangeListener listener)
   {
     changeSupport.addPropertyChangeListener(listener);
   }
-
   @Override public void removeListener(String eventName,
       PropertyChangeListener listener)
   {

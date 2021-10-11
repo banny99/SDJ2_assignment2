@@ -70,4 +70,14 @@ public class ChatViewController implements ViewController
   {
     //nothing
   }
+  @Override public void init(ViewHandler vh, FriendListViewModel fvm,
+      LoginObject loginObject)
+  {
+    //nothing
+  }
+  @Override public void init(ViewHandler vh, LoginViewModel lvm,
+      LoginObject loginObject)
+  {
+    //nothing
+  }
 }

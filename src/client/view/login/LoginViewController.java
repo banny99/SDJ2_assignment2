@@ -4,7 +4,6 @@ import client.core.ViewHandler;
 import client.view.chat.ChatViewModel;
 import client.view.ViewController;
 import client.view.friendlist.FriendListViewModel;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,7 +16,6 @@ public class LoginViewController implements ViewController
   @FXML private Label messageLabel;
   @FXML private TextField tf_username;
   @FXML private TextField tf_password;
-  @FXML private Button btn_login;
 
   private ViewHandler viewHandler;
   private LoginViewModel loginViewModel;
@@ -27,9 +25,6 @@ public class LoginViewController implements ViewController
   {
     viewHandler = vh;
     loginViewModel = lvm;
-
-    //binding
-//    lb_error.textProperty().bind(loginViewModel.getErrorLabelProperty());
   }
 
 
@@ -42,10 +37,12 @@ public class LoginViewController implements ViewController
     if (reply.equals("approved"))
     {
       System.out.println("logged in");
-//      viewHandler.openView("friendList");
-//      viewHandler.openView("chat");
-      viewHandler.openChatView(loginObject);
 
+//      viewHandler.openView("friendList")
+      viewHandler.openFriendListView(loginObject);
+
+//      viewHandler.openView("chat");
+//      viewHandler.openChatView(loginObject);
     }
     else
     {
@@ -59,7 +56,15 @@ public class LoginViewController implements ViewController
   {
     //nothing
   }
+  @Override public void init(ViewHandler vh, LoginViewModel lvm, LoginObject loginObject)
+  {
+    //nothing
+  }
   @Override public void init(ViewHandler vh, FriendListViewModel fvm)
+  {
+    //nothing
+  }
+  @Override public void init(ViewHandler vh, FriendListViewModel fvm, LoginObject loginObject)
   {
     //nothing
   }

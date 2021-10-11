@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="98.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.friendlist.FriendListViewController">
    <children>
       <VBox layoutY="-1.0" prefHeight="400.0" prefWidth="300.0">
@@ -23,6 +22,11 @@
                   <Insets bottom="10.0" left="10.0" top="10.0" />
                </VBox.margin>
             </Label>
+            <Button mnemonicParsing="false" onAction="#updateTable" text="refresh">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" />
+               </VBox.margin>
+            </Button>
             <TableView editable="true" prefHeight="337.0" prefWidth="300.0">
                <columns>
                   <TableColumn minWidth="200.0" prefWidth="200.0" text="Online Friends" />

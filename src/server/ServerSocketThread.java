@@ -3,21 +3,25 @@ package server;
 import com.google.gson.Gson;
 import server.model.Password;
 import server.model.Username;
+import shared.FriendListObject;
 import shared.LoginObject;
 import shared.MessageObject;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ServerSocketThread implements Runnable
 {
   private DataInputStream inputStream;
   private DataOutputStream outputStream;
   private Gson gson;
+  private ArrayList<Long> connectedUsers;
 
-  public ServerSocketThread(Socket socket)
+  public ServerSocketThread(Socket socket, ArrayList<Long> connectedUsers)
   {
     gson = new Gson();
+    this.connectedUsers = connectedUsers;
     try
     {
       inputStream = new DataInputStream(socket.getInputStream());
@@ -36,7 +40,30 @@ public class ServerSocketThread implements Runnable
     login();
     System.out.println("user logged in");
 
-    chat();
+    friendList();
+
+//    chat();
+  }
+
+  private void friendList()
+  {
+    while (true){
+      try
+      {
+        String request = inputStream.readUTF();
+        System.out.println(request);
+
+        FriendListObject tempFriendListObject = new FriendListObject(connectedUsers);
+        String jsonFriendList = gson.toJson(tempFriendListObject);
+        outputStream.writeUTF(jsonFriendList);
+
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+      }
+    }
+
   }
 
   private void chat()

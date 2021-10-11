@@ -86,6 +86,28 @@ public class ViewHandler
     }
   }
 
+  public void openFriendListView(LoginObject loginObject)
+  {
+    try
+    {
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(getClass().getResource("../view/friendlist/friendlist.fxml"));
+      Parent parent = fxmlLoader.load();
+      FriendListViewController friendListViewController = fxmlLoader.getController();
+      friendListViewController.init(this, viewModelFactory.getFriendListViewModel(), loginObject);
+
+      currentScene = new Scene(parent);
+      primaryStage.setScene(currentScene);
+      primaryStage.setTitle("Friend list");
+      primaryStage.show();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      System.out.println("! ->wrong path");
+    }
+  }
+
   private void openChatView()
   {
     try

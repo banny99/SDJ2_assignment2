@@ -4,10 +4,14 @@ import client.core.ViewHandler;
 import client.view.chat.ChatViewModel;
 import client.view.friendlist.FriendListViewModel;
 import client.view.login.LoginViewModel;
+import shared.LoginObject;
 
 public interface ViewController
 {
   void init(ViewHandler vh, LoginViewModel lvm);
   void init(ViewHandler vh, ChatViewModel cvm);
+  void init(ViewHandler vh, LoginViewModel lvm, LoginObject loginObject);
+
   void init(ViewHandler vh, FriendListViewModel fvm);
+  void init(ViewHandler vh, FriendListViewModel fvm, LoginObject loginObject);
 }
