@@ -15,19 +15,14 @@ public class LoginModelManager implements LoginModel
   {
     client = c;
     changeSupport = new PropertyChangeSupport(this);
-
-//    client.addListener("login", this::onLoginResponse);
   }
 
 
-  @Override public String processLogin(String username, String password)
-  {
-    return client.login(username, password);
-  }
   @Override public String processLogin(LoginObject lo)
   {
     return client.login(lo);
   }
+
 
 
   @Override public void addListener(String eventName,

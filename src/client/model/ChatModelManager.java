@@ -27,16 +27,6 @@ public class ChatModelManager implements Model
     changeSupport.firePropertyChange(evt);
   }
 
-  @Override public String processLogin(String username, String password)
-  {
-    //do nothing
-    return null;
-  }
-
-  @Override public void processMessage(String msg)
-  {
-    client.sendMessage(msg);
-  }
   @Override public void processMessage(MessageObject msg)
   {
     client.sendMessage(msg);

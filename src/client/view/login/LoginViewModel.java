@@ -14,30 +14,16 @@ public class LoginViewModel implements Observable
 {
 
   private PropertyChangeSupport changeSupport;
-
   private LoginModel loginModel;
-  private StringProperty errorLabel;
-  public StringProperty getErrorLabelProperty()
-  {
-    return errorLabel;
-  }
+
 
   public LoginViewModel(LoginModel loginModel)
   {
     this.loginModel = loginModel;
     changeSupport = new PropertyChangeSupport(this);
-
-    errorLabel = new SimpleStringProperty();
-
-    //subscription
-//    loginModel.addListener("login", this::onLoginReply);
   }
 
 
-  public String loginBtnPressed(String username, String password)
-  {
-    return loginModel.processLogin(username, password);
-  }
   public String loginBtnPressed(LoginObject lo)
   {
     return loginModel.processLogin(lo);

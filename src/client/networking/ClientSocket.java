@@ -9,7 +9,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class ClientSocket implements Client
 {
@@ -39,28 +38,7 @@ public class ClientSocket implements Client
     }
   }
 
-  @Override public String login(String username, String password)
-  {
-    String serverReply = "denied";
 
-    try
-    {
-      //send login request
-      LoginObject loginObject = new LoginObject(username, password);
-      String jsonRequest = gson.toJson(loginObject);
-      out.writeUTF(jsonRequest);
-
-      //receive message
-      System.out.println(loginObject);
-      serverReply = in.readUTF();
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
-
-    return serverReply;
-  }
   @Override public String login(LoginObject lo)
   {
     String serverReply = "denied";
@@ -82,24 +60,6 @@ public class ClientSocket implements Client
     return serverReply;
   }
 
-  @Override public void sendMessage(String msg)
-  {
-    try
-    {
-      MessageObject messageObject = new MessageObject(msg, "username");
-      String jsonRequest = gson.toJson(messageObject);
-      out.writeUTF(jsonRequest);
-
-      String jsonReply = in.readUTF();
-      messageObject = gson.fromJson(jsonReply, MessageObject.class);
-      System.out.println(messageObject);
-      changeSupport.firePropertyChange("chat", null, messageObject);
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
-  }
 
   @Override public void sendMessage(MessageObject messageObject)
   {

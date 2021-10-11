@@ -41,12 +41,13 @@ public class ServerSocketThread implements Runnable
     System.out.println("user logged in");
 
     friendList();
-
 //    chat();
   }
 
   private void friendList()
   {
+    System.out.println(" ->friend list");
+
     while (true){
       try
       {
@@ -68,6 +69,7 @@ public class ServerSocketThread implements Runnable
 
   private void chat()
   {
+    System.out.println(" ->chat");
     while (true){
       try
       {

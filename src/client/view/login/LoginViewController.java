@@ -32,16 +32,15 @@ public class LoginViewController implements ViewController
   {
     LoginObject loginObject = new LoginObject(tf_username.getText(), tf_password.getText());
     String reply = loginViewModel.loginBtnPressed(loginObject);
-//    String reply = loginViewModel.loginBtnPressed(tf_username.getText(), tf_password.getText());
 
     if (reply.equals("approved"))
     {
       System.out.println("logged in");
 
-//      viewHandler.openView("friendList")
+      //friend list
       viewHandler.openFriendListView(loginObject);
 
-//      viewHandler.openView("chat");
+      //chat
 //      viewHandler.openChatView(loginObject);
     }
     else

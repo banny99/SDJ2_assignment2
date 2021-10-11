@@ -26,10 +26,7 @@ public class ChatViewModel
     tableContentProperty.addAll((MessageObject) evt.getNewValue());
   }
 
-  public void sendMessage(String msg)
-  {
-    chatModelManager.processMessage(msg);
-  }
+
   public void sendMessage(MessageObject msg)
   {
     chatModelManager.processMessage(msg);
