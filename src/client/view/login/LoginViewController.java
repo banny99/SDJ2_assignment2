@@ -38,10 +38,10 @@ public class LoginViewController implements ViewController
       System.out.println("logged in");
 
       //friend list
-      viewHandler.openFriendListView(loginObject);
+//      viewHandler.openFriendListView(loginObject);
 
       //chat
-//      viewHandler.openChatView(loginObject);
+      viewHandler.openChatView(loginObject);
     }
     else
     {

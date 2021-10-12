@@ -3,7 +3,6 @@ package server;
 import com.google.gson.Gson;
 import server.model.Password;
 import server.model.Username;
-import shared.FriendListObject;
 import shared.LoginObject;
 import shared.MessageObject;
 import shared.TransferObject;
@@ -14,10 +13,12 @@ public class ServerSocketThread extends Thread
 {
   private DataInputStream inputStream;
   private DataOutputStream outputStream;
+  private ConnectionPool connectionPool;
   private Gson gson;
 
-  public ServerSocketThread(Socket socket)
+  public ServerSocketThread(Socket socket, ConnectionPool connectionPool)
   {
+    this.connectionPool = connectionPool;
     gson = new Gson();
     try
     {
@@ -37,8 +38,7 @@ public class ServerSocketThread extends Thread
     login();
     System.out.println("user logged in");
 
-    friendList();
-//    chat();
+    chat();
   }
 
 
@@ -52,8 +52,8 @@ public class ServerSocketThread extends Thread
       try
       {
         String jsonRequest = inputStream.readUTF();
-        TransferObject temp = gson.fromJson(jsonRequest, TransferObject.class);
-        receivedLoginObject = gson.fromJson(temp.getContentClass(), LoginObject.class);
+        TransferObject transferObject = gson.fromJson(jsonRequest, TransferObject.class);
+        receivedLoginObject = gson.fromJson(transferObject.getContentClass(), LoginObject.class);
         System.out.println(receivedLoginObject);
 
         try
@@ -74,30 +74,6 @@ public class ServerSocketThread extends Thread
         e.printStackTrace();
       }
     }
-
-    SocketServer.addLogedUser(this, receivedLoginObject.getUsername());
-  }
-
-
-  private void friendList()
-  {
-    System.out.println(" ->friend list");
-
-    while (true){
-      try
-      {
-        String request = inputStream.readUTF();
-        System.out.println(request);
-
-        FriendListObject tempFriendListObject = new FriendListObject(SocketServer.connectedUserNames);
-        String jsonFriendList = gson.toJson(tempFriendListObject);
-        outputStream.writeUTF(jsonFriendList);
-      }
-      catch (IOException e)
-      {
-        e.printStackTrace();
-      }
-    }
   }
 
 
@@ -108,10 +84,11 @@ public class ServerSocketThread extends Thread
       try
       {
         String jsonRequest = inputStream.readUTF();
-        MessageObject messageObject = gson.fromJson(jsonRequest, MessageObject.class);
+        TransferObject transferObject = gson.fromJson(jsonRequest, TransferObject.class);
+        MessageObject messageObject = gson.fromJson(transferObject.getContentClass(), MessageObject.class);
         System.out.println(messageObject);
 
-        outputStream.writeUTF(gson.toJson(messageObject));
+        connectionPool.broadcastMessages(messageObject);
       }
       catch (IOException e)
       {
@@ -120,13 +97,13 @@ public class ServerSocketThread extends Thread
     }
   }
 
-  public void notifyClient()
+
+  public void sendMessage(MessageObject messageObject)
   {
+    TransferObject transferObject = new TransferObject("MSG", gson.toJson(messageObject));
     try
     {
-      FriendListObject tempFriendListObject = new FriendListObject(SocketServer.connectedUserNames);
-      String jsonFriendList = gson.toJson(tempFriendListObject);
-      outputStream.writeUTF(jsonFriendList);
+      outputStream.writeUTF(gson.toJson(transferObject));
     }
     catch (IOException e)
     {

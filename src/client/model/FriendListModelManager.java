@@ -13,6 +13,6 @@ public class FriendListModelManager implements FriendListModel
 
   @Override public void requestCurrFriendList()
   {
-    client.requestCurrFriendList();
+    //nothing
   }
 }
