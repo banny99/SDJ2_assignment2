@@ -1,28 +1,29 @@
 package server;
 
 import shared.MessageObject;
+import shared.Observable;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
-import java.util.ArrayList;
-
-public class ConnectionPool
+public class ConnectionPool implements Observable
 {
-  private ArrayList<ServerSocketThread> connections = new ArrayList<>();
+  private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+
+
+  @Override public void addListener(String eventName,
+      PropertyChangeListener listener)
+  {
+    changeSupport.addPropertyChangeListener("msg", listener);
+  }
+  @Override public void removeListener(String eventName,
+      PropertyChangeListener listener)
+  {
+    changeSupport.removePropertyChangeListener("msg", listener);
+  }
 
   public void broadcastMessages(MessageObject messageObject)
   {
-    for (ServerSocketThread t : connections)
-    {
-      t.sendMessage(messageObject);
-    }
+    changeSupport.firePropertyChange("msg", null, messageObject);
   }
 
-  public void addConnection(ServerSocketThread tempThread)
-  {
-    connections.add(tempThread);
-  }
-
-  public void removeConnection(ServerSocketThread tempThread)
-  {
-    connections.remove(tempThread);
-  }
 }

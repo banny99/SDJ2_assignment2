@@ -33,7 +33,6 @@ public class SocketServer implements Observable
 
         Socket socket = welcomeSocket.accept();
         ServerSocketThread tempThread = new ServerSocketThread(socket, connectionPool);
-        connectionPool.addConnection(tempThread);
         tempThread.start();
       }
     }

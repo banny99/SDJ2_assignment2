@@ -6,6 +6,7 @@ import server.model.Username;
 import shared.LoginObject;
 import shared.MessageObject;
 import shared.TransferObject;
+import java.beans.PropertyChangeEvent;
 import java.io.*;
 import java.net.Socket;
 
@@ -29,6 +30,9 @@ public class ServerSocketThread extends Thread
     {
       e.printStackTrace();
     }
+
+    //subscription to connectionPool
+    connectionPool.addListener("msg", this::sendMessage);
   }
 
   @Override public void run()
@@ -98,8 +102,10 @@ public class ServerSocketThread extends Thread
   }
 
 
-  public void sendMessage(MessageObject messageObject)
+  //subscriber's "update()" method
+  private void sendMessage(PropertyChangeEvent evt)
   {
+    MessageObject messageObject = (MessageObject) evt.getNewValue();
     TransferObject transferObject = new TransferObject("MSG", gson.toJson(messageObject));
     try
     {
