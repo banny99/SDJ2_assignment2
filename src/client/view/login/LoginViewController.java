@@ -34,7 +34,6 @@ public class LoginViewController implements ViewController
     LoginObject loginObject = new LoginObject(tf_username.getText(), tf_password.getText());
     try
     {
-//      String reply = loginViewModel.loginBtnPressed(loginObject);
       loginViewModel.loginBtnPressed(loginObject);
       System.out.println("logged in");
       viewHandler.openChatView(loginObject);
@@ -44,7 +43,6 @@ public class LoginViewController implements ViewController
       messageLabel.setVisible(true);
       messageLabel.setText("! " + e.getMessage());
     }
-
   }
 
 
@@ -52,7 +50,8 @@ public class LoginViewController implements ViewController
   {
     //nothing
   }
-  @Override public void init(ViewHandler vh, LoginViewModel lvm, LoginObject loginObject)
+  @Override public void init(ViewHandler vh, ChatViewModel cvm,
+      LoginObject loginObject)
   {
     //nothing
   }
@@ -60,8 +59,8 @@ public class LoginViewController implements ViewController
   {
     //nothing
   }
-  @Override public void init(ViewHandler vh, FriendListViewModel fvm, LoginObject loginObject)
+  @Override public void closeWindow()
   {
-    //nothing
+    loginViewModel.disconnect();
   }
 }

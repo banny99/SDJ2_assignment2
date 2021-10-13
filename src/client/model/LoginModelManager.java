@@ -2,7 +2,6 @@ package client.model;
 
 import client.networking.Client;
 import shared.LoginObject;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -24,7 +23,6 @@ public class LoginModelManager implements LoginModel
   }
 
 
-
   @Override public void addListener(String eventName,
       PropertyChangeListener listener)
   {
@@ -35,5 +33,10 @@ public class LoginModelManager implements LoginModel
       PropertyChangeListener listener)
   {
     changeSupport.removePropertyChangeListener(listener);
+  }
+
+  @Override public void disconnect()
+  {
+    client.disconnect();
   }
 }

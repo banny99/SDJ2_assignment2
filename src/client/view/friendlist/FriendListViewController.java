@@ -12,21 +12,13 @@ public class FriendListViewController implements ViewController
 
   private ViewHandler viewHandler;
   private FriendListViewModel friendListViewModel;
-  private LoginObject loginObject;
 
   @Override public void init(ViewHandler vh, FriendListViewModel fvm)
   {
     viewHandler = vh;
     friendListViewModel = fvm;
   }
-  @Override public void init(ViewHandler vh, FriendListViewModel fvm, LoginObject loginObject)
-  {
-    viewHandler = vh;
-    friendListViewModel = fvm;
-    this.loginObject = loginObject;
 
-    updateCurrFriendList();
-  }
 
   private void updateCurrFriendList()
   {
@@ -39,6 +31,7 @@ public class FriendListViewController implements ViewController
   }
 
 
+
   @Override public void init(ViewHandler vh, LoginViewModel lvm)
   {
     //nothing
@@ -47,9 +40,14 @@ public class FriendListViewController implements ViewController
   {
     //nothing
   }
-  @Override public void init(ViewHandler vh, LoginViewModel lvm, LoginObject loginObject)
+  @Override public void init(ViewHandler vh, ChatViewModel cvm, LoginObject loginObject)
   {
     //nothing
   }
 
+  @Override public void closeWindow()
+  {
+    //ToDo...
+    //?? ...
+  }
 }

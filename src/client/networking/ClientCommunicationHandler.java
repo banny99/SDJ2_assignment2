@@ -33,6 +33,7 @@ public class ClientCommunicationHandler extends Thread
     }
   }
 
+
   @Override public void run()
   {
     try
@@ -52,6 +53,11 @@ public class ClientCommunicationHandler extends Thread
   }
 
 
+  public String logIn(TransferObject transferObject) throws IOException
+  {
+    out.writeUTF(gson.toJson(transferObject));
+    return in.readUTF();
+  }
 
   public void sendMessage(TransferObject transferObject)
   {
@@ -62,24 +68,15 @@ public class ClientCommunicationHandler extends Thread
     catch (IOException e)
     {
       e.printStackTrace();
+      System.out.println("(Exception) message sending failed");
     }
   }
 
-  public String logIn(TransferObject transferObject)
+
+  public void disconnect(TransferObject transferObject) throws IOException
   {
-    String serverReply = "denied";
-    try
-    {
-      out.writeUTF(gson.toJson(transferObject));
-      serverReply = in.readUTF();
-      System.out.println(serverReply + " -from handler");
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
-
-    return serverReply;
+    out.writeUTF(gson.toJson(transferObject));
   }
+
 }
 

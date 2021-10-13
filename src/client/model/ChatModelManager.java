@@ -2,6 +2,7 @@ package client.model;
 
 import client.networking.Client;
 import shared.MessageObject;
+import shared.TransferObject;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -43,5 +44,10 @@ public class ChatModelManager implements Model
       PropertyChangeListener listener)
   {
     changeSupport.removePropertyChangeListener(listener);
+  }
+
+  @Override public void disconnect()
+  {
+    client.disconnect();
   }
 }

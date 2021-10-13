@@ -10,15 +10,13 @@ public class ConnectionPool implements Observable
   private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
 
-  @Override public void addListener(String eventName,
-      PropertyChangeListener listener)
+  @Override public void addListener(String eventName, PropertyChangeListener listener)
   {
-    changeSupport.addPropertyChangeListener("msg", listener);
+    changeSupport.addPropertyChangeListener(eventName, listener);
   }
-  @Override public void removeListener(String eventName,
-      PropertyChangeListener listener)
+  @Override public void removeListener(String eventName, PropertyChangeListener listener)
   {
-    changeSupport.removePropertyChangeListener("msg", listener);
+    changeSupport.removePropertyChangeListener(eventName, listener);
   }
 
   public void broadcastMessages(MessageObject messageObject)

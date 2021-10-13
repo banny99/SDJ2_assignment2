@@ -35,4 +35,9 @@ public class ChatViewModel
   {
     return tableContentProperty;
   }
+
+  public void disconnect()
+  {
+    chatModelManager.disconnect();
+  }
 }

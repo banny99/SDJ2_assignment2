@@ -9,4 +9,5 @@ public interface Model extends Observable
 {
   void processMessage(MessageObject msg);
   void receiveMsg(PropertyChangeEvent evt);
+  void disconnect();
 }

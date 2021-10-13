@@ -42,4 +42,9 @@ public class LoginViewModel implements Observable
   {
     changeSupport.removePropertyChangeListener(listener);
   }
+
+  public void disconnect()
+  {
+    loginModel.disconnect();
+  }
 }

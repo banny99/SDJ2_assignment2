@@ -9,13 +9,13 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.Socket;
-import java.nio.file.AccessDeniedException;
 
 public class ClientSocket implements Client
 {
   private final PropertyChangeSupport changeSupport;
   private Gson gson;
 
+  private Socket clientSocket;
   private ClientCommunicationHandler handler;
   
 
@@ -26,8 +26,8 @@ public class ClientSocket implements Client
 
     try
     {
-      Socket socket = new Socket("localhost", 4444);
-      handler = new ClientCommunicationHandler(socket, this);
+      clientSocket = new Socket("localhost", 4444);
+      handler = new ClientCommunicationHandler(clientSocket, this);
       handler.setDaemon(true);
     }
     catch (IOException e)
@@ -39,8 +39,17 @@ public class ClientSocket implements Client
 
   @Override public void login(LoginObject lo)
   {
-    TransferObject transferObject = new TransferObject("LO", gson.toJson(lo));
-    String serverReply = handler.logIn(transferObject);
+    String serverReply;
+    try
+    {
+      TransferObject transferObject = new TransferObject("LO", gson.toJson(lo));
+      serverReply = handler.logIn(transferObject);
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      serverReply = "denied";
+    }
 
     //when login approved ->run communication thread
     if (serverReply.equals("approved"))
@@ -54,7 +63,6 @@ public class ClientSocket implements Client
   }
 
 
-
   @Override public void sendMessage(MessageObject messageObject)
   {
     String jsonMsg = gson.toJson(messageObject);
@@ -62,13 +70,12 @@ public class ClientSocket implements Client
     handler.sendMessage(transferObject);
   }
 
-  public void receiveMessage(TransferObject transferObject)
+  @Override public void receiveMessage(TransferObject transferObject)
   {
     MessageObject messageObject = gson.fromJson(transferObject.getContentClass(), MessageObject.class);
     System.out.println("received: " + messageObject);
     changeSupport.firePropertyChange("chat", null, messageObject);
   }
-
 
 
   @Override public void addListener(String eventName, PropertyChangeListener listener)
@@ -80,4 +87,18 @@ public class ClientSocket implements Client
     changeSupport.removePropertyChangeListener(listener);
   }
 
+
+  @Override public void disconnect()
+  {
+    try
+    {
+      handler.disconnect(new TransferObject("disconnect", ""));
+//      clientSocket.close();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+      System.out.println("client socket disconnecting failed");
+    }
+  }
 }

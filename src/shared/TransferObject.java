@@ -20,4 +20,10 @@ public class TransferObject
   {
     return contentClass;
   }
+
+  @Override public String toString()
+  {
+    return "TransferObject{" + "type='" + type + '\'' + ", contentClass='"
+        + contentClass + '\'' + '}';
+  }
 }

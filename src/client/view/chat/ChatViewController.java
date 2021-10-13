@@ -12,7 +12,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import shared.LoginObject;
 import shared.MessageObject;
-
 import java.sql.Time;
 
 public class ChatViewController implements ViewController
@@ -56,7 +55,6 @@ public class ChatViewController implements ViewController
   public void sendMsgButtonPressed(ActionEvent actionEvent)
   {
     MessageObject messageObject = new MessageObject(chatTextField.getText(), loginObject.getUsername());
-//    chatViewModel.sendMessage(chatTextField.getText());
     chatViewModel.sendMessage(messageObject);
     chatTextField.clear();
   }
@@ -70,14 +68,10 @@ public class ChatViewController implements ViewController
   {
     //nothing
   }
-  @Override public void init(ViewHandler vh, FriendListViewModel fvm,
-      LoginObject loginObject)
+
+
+  @Override public void closeWindow()
   {
-    //nothing
-  }
-  @Override public void init(ViewHandler vh, LoginViewModel lvm,
-      LoginObject loginObject)
-  {
-    //nothing
+    chatViewModel.disconnect();
   }
 }
