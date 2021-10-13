@@ -1,6 +1,7 @@
 package client.networking;
 
 import com.google.gson.Gson;
+import shared.DeniedLoginException;
 import shared.LoginObject;
 import shared.MessageObject;
 import shared.TransferObject;
@@ -8,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.AccessDeniedException;
 
 public class ClientSocket implements Client
 {
@@ -35,9 +37,8 @@ public class ClientSocket implements Client
   }
 
 
-  @Override public String login(LoginObject lo)
+  @Override public void login(LoginObject lo)
   {
-
     TransferObject transferObject = new TransferObject("LO", gson.toJson(lo));
     String serverReply = handler.logIn(transferObject);
 
@@ -46,8 +47,10 @@ public class ClientSocket implements Client
     {
       handler.start();
     }
-
-    return serverReply;
+    else
+    {
+      throw new DeniedLoginException(serverReply);
+    }
   }
 
 
@@ -68,13 +71,11 @@ public class ClientSocket implements Client
 
 
 
-  @Override public void addListener(String eventName,
-      PropertyChangeListener listener)
+  @Override public void addListener(String eventName, PropertyChangeListener listener)
   {
     changeSupport.addPropertyChangeListener(listener);
   }
-  @Override public void removeListener(String eventName,
-      PropertyChangeListener listener)
+  @Override public void removeListener(String eventName, PropertyChangeListener listener)
   {
     changeSupport.removePropertyChangeListener(listener);
   }

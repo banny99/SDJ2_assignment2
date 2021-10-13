@@ -24,9 +24,9 @@ public class LoginViewModel implements Observable
   }
 
 
-  public String loginBtnPressed(LoginObject lo)
+  public void loginBtnPressed(LoginObject lo)
   {
-    return loginModel.processLogin(lo);
+    loginModel.processLogin(lo);
   }
 
 

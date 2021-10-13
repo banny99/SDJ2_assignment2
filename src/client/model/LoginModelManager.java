@@ -18,9 +18,9 @@ public class LoginModelManager implements LoginModel
   }
 
 
-  @Override public String processLogin(LoginObject lo)
+  @Override public void processLogin(LoginObject lo)
   {
-    return client.login(lo);
+    client.login(lo);
   }
 
 

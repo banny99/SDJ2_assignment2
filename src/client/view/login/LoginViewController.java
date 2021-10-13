@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import shared.DeniedLoginException;
 import shared.LoginObject;
 
 public class LoginViewController implements ViewController
@@ -31,23 +32,19 @@ public class LoginViewController implements ViewController
   public void onLoginBtnPressed(ActionEvent actionEvent)
   {
     LoginObject loginObject = new LoginObject(tf_username.getText(), tf_password.getText());
-    String reply = loginViewModel.loginBtnPressed(loginObject);
-
-    if (reply.equals("approved"))
+    try
     {
+//      String reply = loginViewModel.loginBtnPressed(loginObject);
+      loginViewModel.loginBtnPressed(loginObject);
       System.out.println("logged in");
-
-      //friend list
-//      viewHandler.openFriendListView(loginObject);
-
-      //chat
       viewHandler.openChatView(loginObject);
     }
-    else
+    catch (DeniedLoginException e)
     {
       messageLabel.setVisible(true);
-      messageLabel.setText("! " + reply);
+      messageLabel.setText("! " + e.getMessage());
     }
+
   }
 
 

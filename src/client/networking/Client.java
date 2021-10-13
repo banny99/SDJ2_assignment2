@@ -7,7 +7,7 @@ import shared.TransferObject;
 
 public interface Client extends Observable
 {
-  String login(LoginObject lo);
+  void login(LoginObject lo);
   void sendMessage(MessageObject msg);
   void receiveMessage(TransferObject transferObject);
 }

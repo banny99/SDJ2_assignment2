@@ -5,5 +5,5 @@ import shared.Observable;
 
 public interface LoginModel extends Observable
 {
-  String processLogin(LoginObject lo);
+  void processLogin(LoginObject lo);
 }
