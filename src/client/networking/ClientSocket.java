@@ -1,10 +1,8 @@
 package client.networking;
 
 import com.google.gson.Gson;
-import shared.DeniedLoginException;
-import shared.LoginObject;
-import shared.MessageObject;
-import shared.TransferObject;
+import shared.*;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
@@ -70,11 +68,22 @@ public class ClientSocket implements Client
     handler.sendMessage(transferObject);
   }
 
-  @Override public void receiveMessage(TransferObject transferObject)
+  @Override public void receiveReply(TransferObject transferObject)
   {
-    MessageObject messageObject = gson.fromJson(transferObject.getContentClass(), MessageObject.class);
-    System.out.println("received: " + messageObject);
-    changeSupport.firePropertyChange("chat", null, messageObject);
+    //message(chat)
+    if (transferObject.getType().equals("MSG"))
+    {
+      MessageObject messageObject = gson.fromJson(transferObject.getContentClass(), MessageObject.class);
+      System.out.println("received: " + messageObject);
+      changeSupport.firePropertyChange("chat", null, messageObject);
+    }
+    //active users update (connections)
+    else if (transferObject.getType().equals("CNCT"))
+    {
+      ConnectionsObject updatedConnectionsList = gson.fromJson(transferObject.getContentClass(), ConnectionsObject.class);
+      System.out.println("updated connections: " + updatedConnectionsList);
+    }
+
   }
 
 

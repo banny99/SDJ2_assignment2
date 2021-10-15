@@ -43,7 +43,7 @@ public class ClientCommunicationHandler extends Thread
       {
         String json = in.readUTF();
         TransferObject transferObject = gson.fromJson(json, TransferObject.class);
-        client.receiveMessage(transferObject);
+        client.receiveReply(transferObject);
       }
     }
     catch (IOException e)
