@@ -59,7 +59,7 @@ public class ClientCommunicationHandler extends Thread
     return in.readUTF();
   }
 
-  public void sendMessage(TransferObject transferObject)
+  public void sendRequest(TransferObject transferObject)
   {
     try
     {
@@ -68,7 +68,7 @@ public class ClientCommunicationHandler extends Thread
     catch (IOException e)
     {
       e.printStackTrace();
-      System.out.println("(Exception) message sending failed");
+      System.out.println("(Exception) sending request failed");
     }
   }
 

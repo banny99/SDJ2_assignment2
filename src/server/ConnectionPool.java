@@ -21,11 +21,6 @@ public class ConnectionPool implements Observable
     changeSupport.removePropertyChangeListener(eventName, listener);
   }
 
-  public void broadcastMessages(MessageObject messageObject)
-  {
-    changeSupport.firePropertyChange("msg", null, messageObject);
-  }
-
 
   private ArrayList<ServerSocketThread> listeners = new ArrayList<>();
   private ArrayList<LoginObject> activeUsers = new ArrayList<>();
@@ -61,5 +56,11 @@ public class ConnectionPool implements Observable
     {
       t.updateConnections(new ConnectionsObject(connectionsCopy));
     }
+  }
+
+  public void broadcastActiveUsers(ServerSocketThread t)
+  {
+    ArrayList<LoginObject> connectionsCopy = new ArrayList<>(activeUsers);
+    t.updateConnections(new ConnectionsObject(connectionsCopy));
   }
 }

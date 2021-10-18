@@ -72,7 +72,7 @@ public class ViewHandler
     }
   }
 
-  private void openFriendListView()
+  public void openFriendListView()
   {
     try
     {

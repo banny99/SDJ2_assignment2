@@ -36,7 +36,8 @@ public class LoginViewController implements ViewController
     {
       loginViewModel.loginBtnPressed(loginObject);
       System.out.println("logged in");
-      viewHandler.openChatView(loginObject);
+      viewHandler.openFriendListView();
+//      viewHandler.openChatView(loginObject);
     }
     catch (DeniedLoginException e)
     {

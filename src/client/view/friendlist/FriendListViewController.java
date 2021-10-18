@@ -5,32 +5,39 @@ import client.view.ViewController;
 import client.view.chat.ChatViewModel;
 import client.view.login.LoginViewModel;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import shared.LoginObject;
 
 public class FriendListViewController implements ViewController
 {
 
+  @FXML private TableView activeConnectionsTab;
+  @FXML private TableColumn onlineFriendsCol;
+  @FXML private TableColumn timeCol;
+
   private ViewHandler viewHandler;
   private FriendListViewModel friendListViewModel;
+
 
   @Override public void init(ViewHandler vh, FriendListViewModel fvm)
   {
     viewHandler = vh;
     friendListViewModel = fvm;
+
+    onlineFriendsCol.setCellValueFactory(new PropertyValueFactory<LoginObject, String>("username"));
+    timeCol.setCellValueFactory(new PropertyValueFactory<LoginObject, String>("timeStamp"));
+    activeConnectionsTab.setItems(friendListViewModel.getConnectionsProperty());
+
+    requestConnections();
   }
 
-
-  private void updateCurrFriendList()
+  private void requestConnections()
   {
-    friendListViewModel.requestCurrFriendList();
+    friendListViewModel.requestConnections();
   }
-  //btn-action
-  public void updateTable(ActionEvent actionEvent)
-  {
-    updateCurrFriendList();
-  }
-
-
 
   @Override public void init(ViewHandler vh, LoginViewModel lvm)
   {
@@ -47,7 +54,6 @@ public class FriendListViewController implements ViewController
 
   @Override public void closeWindow()
   {
-    //ToDo...
-    //?? ...
+    friendListViewModel.disconnect();
   }
 }

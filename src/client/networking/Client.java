@@ -11,4 +11,5 @@ public interface Client extends Observable
   void sendMessage(MessageObject msg);
   void receiveReply(TransferObject transferObject);
   void disconnect();
+  void requestConnections();
 }

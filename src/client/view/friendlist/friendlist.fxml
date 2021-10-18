@@ -22,15 +22,10 @@
                   <Insets bottom="10.0" left="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <Button mnemonicParsing="false" onAction="#updateTable" text="refresh">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" />
-               </VBox.margin>
-            </Button>
-            <TableView editable="true" prefHeight="337.0" prefWidth="300.0">
+            <TableView fx:id="activeConnectionsTab" editable="true" prefHeight="337.0" prefWidth="300.0">
                <columns>
-                  <TableColumn minWidth="200.0" prefWidth="200.0" text="Online Friends" />
-                  <TableColumn minWidth="100.0" prefWidth="100.0" text="Time" />
+                  <TableColumn fx:id="onlineFriendsCol" minWidth="200.0" prefWidth="200.0" text="Online Friends" />
+                  <TableColumn fx:id="timeCol" minWidth="100.0" prefWidth="100.0" text="Time" />
                </columns>
             </TableView>
             <HBox alignment="CENTER" prefHeight="0.0" prefWidth="300.0">

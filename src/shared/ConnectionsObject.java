@@ -11,6 +11,11 @@ public class ConnectionsObject
     this.currConnections = currConnections;
   }
 
+  public ArrayList<LoginObject> getCurrConnections()
+  {
+    return currConnections;
+  }
+
   @Override public String toString()
   {
     return "ConnectionsObject{" + "currConnections=" + currConnections + '}';

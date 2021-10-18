@@ -7,8 +7,6 @@ import shared.ConnectionsObject;
 import shared.LoginObject;
 import shared.MessageObject;
 import shared.TransferObject;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.net.Socket;
 
@@ -19,8 +17,6 @@ public class ServerSocketThread extends Thread
   private DataOutputStream outputStream;
   private ConnectionPool connectionPool;
   private Gson gson;
-
-  private PropertyChangeListener listener = this::sendMessage;
 
   private LoginObject loggedUser;
 
@@ -51,6 +47,7 @@ public class ServerSocketThread extends Thread
       System.out.println("user logged in");
 
       chat();
+
       System.out.println("client disconnected : " + socket.getPort());
     }
 
@@ -117,12 +114,14 @@ public class ServerSocketThread extends Thread
         {
           MessageObject messageObject = gson.fromJson(transferObject.getContentClass(), MessageObject.class);
           System.out.println(messageObject);
-//          connectionPool.broadcastMessages(messageObject);
           connectionPool.broadcastMessage(messageObject);
+        }
+        else if (transferObject.getType().equals("CNCT"))
+        {
+          connectionPool.broadcastActiveUsers(this);
         }
         else
         {
-//          connectionPool.removeListener("msg", listener);
           connectionPool.removeListener(this);
           break;
         }
@@ -136,20 +135,6 @@ public class ServerSocketThread extends Thread
 
 
   //subscriber's "update()" method
-  private void sendMessage(PropertyChangeEvent evt)
-  {
-    MessageObject messageObject = (MessageObject) evt.getNewValue();
-    TransferObject transferObject = new TransferObject("MSG", gson.toJson(messageObject));
-    try
-    {
-      outputStream.writeUTF(gson.toJson(transferObject));
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
-  }
-
   public void sendMessage(MessageObject messageObject)
   {
     try

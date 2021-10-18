@@ -2,7 +2,6 @@ package client.networking;
 
 import com.google.gson.Gson;
 import shared.*;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
@@ -65,7 +64,7 @@ public class ClientSocket implements Client
   {
     String jsonMsg = gson.toJson(messageObject);
     TransferObject transferObject = new TransferObject("MSG", jsonMsg);
-    handler.sendMessage(transferObject);
+    handler.sendRequest(transferObject);
   }
 
   @Override public void receiveReply(TransferObject transferObject)
@@ -82,8 +81,14 @@ public class ClientSocket implements Client
     {
       ConnectionsObject updatedConnectionsList = gson.fromJson(transferObject.getContentClass(), ConnectionsObject.class);
       System.out.println("updated connections: " + updatedConnectionsList);
+      changeSupport.firePropertyChange("cnct", null, updatedConnectionsList.getCurrConnections());
     }
+  }
 
+
+  @Override public void requestConnections()
+  {
+    handler.sendRequest(new TransferObject("CNCT", ""));
   }
 
 
@@ -101,7 +106,7 @@ public class ClientSocket implements Client
   {
     try
     {
-      handler.disconnect(new TransferObject("disconnect", ""));
+      handler.disconnect(new TransferObject("EXIT", ""));
 //      clientSocket.close();
     }
     catch (IOException e)

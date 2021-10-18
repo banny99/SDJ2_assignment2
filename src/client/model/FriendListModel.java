@@ -1,6 +1,9 @@
 package client.model;
 
-public interface FriendListModel
+import shared.Observable;
+
+public interface FriendListModel extends Observable
 {
-  void requestCurrFriendList();
+  void disconnect();
+  void requestConnections();
 }
