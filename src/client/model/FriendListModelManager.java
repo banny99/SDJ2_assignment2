@@ -1,12 +1,13 @@
 package client.model;
 
 import client.networking.Client;
+import shared.MessageObject;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class FriendListModelManager implements FriendListModel
+public class FriendListModelManager implements Model
 {
   private Client client;
   private PropertyChangeSupport changeSupport;
@@ -17,24 +18,16 @@ public class FriendListModelManager implements FriendListModel
     changeSupport = new PropertyChangeSupport(this);
 
     //subscription
-    client.addListener("cnct", this::updateConnections);
-  }
-
-  private void updateConnections(PropertyChangeEvent evt)
-  {
-    changeSupport.firePropertyChange(evt);
+    this.client.addListener("cnct", this::updateConnections);
   }
 
   @Override public void requestConnections()
   {
     client.requestConnections();
   }
-
-
-
-  @Override public void disconnect()
+  private void updateConnections(PropertyChangeEvent evt)
   {
-    client.disconnect();
+    changeSupport.firePropertyChange(evt);
   }
 
 
@@ -45,5 +38,21 @@ public class FriendListModelManager implements FriendListModel
   @Override public void removeListener(String eventName, PropertyChangeListener listener)
   {
     changeSupport.removePropertyChangeListener(eventName, listener);
+  }
+
+
+  @Override public void disconnect()
+  {
+    client.disconnect();
+  }
+
+
+  @Override public void processMessage(MessageObject msg)
+  {
+    //nothing
+  }
+  @Override public void receiveMsg(PropertyChangeEvent evt)
+  {
+    //nothing
   }
 }

@@ -31,6 +31,16 @@ public class LoginObject implements Serializable
     return timeStamp;
   }
 
+  public boolean equals(Object o)
+  {
+    if (!(o instanceof LoginObject))
+      return false;
+
+    LoginObject other = (LoginObject) o;
+    return this.username.equals(other.username)
+        && this.password.equals(other.password);
+  }
+
   @Override public String toString()
   {
     return "LoginObject{" + "username='" + username + '\'' + ", password='"

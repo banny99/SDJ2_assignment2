@@ -26,11 +26,11 @@ public class ModelFactory
     return chatModel;
   }
 
-  private FriendListModel friendListModel;
-  public FriendListModel getFriendListModel()
+  private Model model;
+  public Model getModel()
   {
-    if (friendListModel == null)
-      friendListModel = new FriendListModelManager(clientFactory.getClient());
-    return friendListModel;
+    if (model == null)
+      model = new FriendListModelManager(clientFactory.getClient());
+    return model;
   }
 }

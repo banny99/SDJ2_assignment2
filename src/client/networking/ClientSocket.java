@@ -79,9 +79,9 @@ public class ClientSocket implements Client
     //active users update (connections)
     else if (transferObject.getType().equals("CNCT"))
     {
-      ConnectionsObject updatedConnectionsList = gson.fromJson(transferObject.getContentClass(), ConnectionsObject.class);
-      System.out.println("updated connections: " + updatedConnectionsList);
-      changeSupport.firePropertyChange("cnct", null, updatedConnectionsList.getCurrConnections());
+      ConnectionsObject connectionsObject = gson.fromJson(transferObject.getContentClass(), ConnectionsObject.class);
+      System.out.println("updated connections: " + connectionsObject);
+      changeSupport.firePropertyChange("cnct", null, connectionsObject.getCurrConnections());
     }
   }
 
@@ -94,11 +94,11 @@ public class ClientSocket implements Client
 
   @Override public void addListener(String eventName, PropertyChangeListener listener)
   {
-    changeSupport.addPropertyChangeListener(listener);
+    changeSupport.addPropertyChangeListener(eventName, listener);
   }
   @Override public void removeListener(String eventName, PropertyChangeListener listener)
   {
-    changeSupport.removePropertyChangeListener(listener);
+    changeSupport.removePropertyChangeListener(eventName, listener);
   }
 
 

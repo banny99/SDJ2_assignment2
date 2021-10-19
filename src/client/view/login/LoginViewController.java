@@ -6,7 +6,6 @@ import client.view.ViewController;
 import client.view.friendlist.FriendListViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import shared.DeniedLoginException;
@@ -36,7 +35,8 @@ public class LoginViewController implements ViewController
     {
       loginViewModel.loginBtnPressed(loginObject);
       System.out.println("logged in");
-      viewHandler.openFriendListView();
+
+      viewHandler.openFriendListView(loginObject);
 //      viewHandler.openChatView(loginObject);
     }
     catch (DeniedLoginException e)
@@ -47,19 +47,16 @@ public class LoginViewController implements ViewController
   }
 
 
-  @Override public void init(ViewHandler vh, ChatViewModel cvm)
-  {
-    //nothing
-  }
   @Override public void init(ViewHandler vh, ChatViewModel cvm,
       LoginObject loginObject)
   {
     //nothing
   }
-  @Override public void init(ViewHandler vh, FriendListViewModel fvm)
+  @Override public void init(ViewHandler vh, FriendListViewModel fvm, LoginObject loggedUser)
   {
     //nothing
   }
+
   @Override public void closeWindow()
   {
     loginViewModel.disconnect();

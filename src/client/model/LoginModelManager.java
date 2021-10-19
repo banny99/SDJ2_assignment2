@@ -23,16 +23,14 @@ public class LoginModelManager implements LoginModel
   }
 
 
-  @Override public void addListener(String eventName,
-      PropertyChangeListener listener)
+  @Override public void addListener(String eventName, PropertyChangeListener listener)
   {
-    changeSupport.addPropertyChangeListener(listener);
+    changeSupport.addPropertyChangeListener(eventName, listener);
   }
 
-  @Override public void removeListener(String eventName,
-      PropertyChangeListener listener)
+  @Override public void removeListener(String eventName, PropertyChangeListener listener)
   {
-    changeSupport.removePropertyChangeListener(listener);
+    changeSupport.removePropertyChangeListener(eventName, listener);
   }
 
   @Override public void disconnect()

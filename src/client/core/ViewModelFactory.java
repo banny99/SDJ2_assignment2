@@ -32,7 +32,7 @@ public class ViewModelFactory
   public FriendListViewModel getFriendListViewModel()
   {
     if (friendListViewModel == null)
-      friendListViewModel = new FriendListViewModel(modelFactory.getFriendListModel());
+      friendListViewModel = new FriendListViewModel(modelFactory.getModel());
     return friendListViewModel;
   }
 

@@ -42,9 +42,29 @@ public class ConnectionPool implements Observable
 
   public void broadcastMessage(MessageObject messageObject)
   {
-    for (ServerSocketThread t : listeners)
+    ArrayList<LoginObject> tempMembers = messageObject.getChatMembers();
+    System.out.println(tempMembers + " :" + tempMembers.size());
+
+    if (tempMembers.isEmpty())
     {
-      t.sendMessage(messageObject);
+      for (ServerSocketThread t : listeners)
+      {
+        t.sendMessage(messageObject);
+      }
+    }
+    else
+    {
+      System.out.println(listeners.size() + "," + activeUsers.size());
+
+      for (LoginObject l : tempMembers)
+      {
+        for (int i=0; i<listeners.size(); i++)
+        {
+          if (l.equals(activeUsers.get(i)))
+            listeners.get(i).sendMessage(messageObject);
+        }
+      }
+
     }
   }
 

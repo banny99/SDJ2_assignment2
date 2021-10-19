@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import shared.LoginObject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class ViewHandler
@@ -72,7 +73,7 @@ public class ViewHandler
     }
   }
 
-  public void openFriendListView()
+  public void openFriendListView(LoginObject loginObject)
   {
     try
     {
@@ -80,7 +81,7 @@ public class ViewHandler
       fxmlLoader.setLocation(getClass().getResource("../view/friendlist/friendlist.fxml"));
       Parent parent = fxmlLoader.load();
       currController = fxmlLoader.getController();
-      currController.init(this, viewModelFactory.getFriendListViewModel());
+      currController.init(this, viewModelFactory.getFriendListViewModel(), loginObject);
 
       currentScene = new Scene(parent);
       primaryStage.setScene(currentScene);
@@ -95,28 +96,6 @@ public class ViewHandler
   }
 
 
-  private void openChatView()
-  {
-    try
-    {
-      FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(getClass().getResource("../view/chat/chat.fxml"));
-      Parent parent = fxmlLoader.load();
-      currController = fxmlLoader.getController();
-      currController.init(this, viewModelFactory.getChatViewModel());
-
-      currentScene = new Scene(parent);
-      primaryStage.setScene(currentScene);
-      primaryStage.setTitle("Chat");
-      primaryStage.show();
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-      System.out.println("! ->wrong path");
-    }
-  }
-
   public void openChatView(LoginObject loginObject)
   {
     try
@@ -124,13 +103,23 @@ public class ViewHandler
       FXMLLoader fxmlLoader = new FXMLLoader();
       fxmlLoader.setLocation(getClass().getResource("../view/chat/chat.fxml"));
       Parent parent = fxmlLoader.load();
-      currController = fxmlLoader.getController();
-      currController.init(this, viewModelFactory.getChatViewModel(), loginObject);
 
-      currentScene = new Scene(parent);
-      primaryStage.setScene(currentScene);
-      primaryStage.setTitle("Chat");
-      primaryStage.show();
+//      currController = fxmlLoader.getController();
+//      currController.init(this, viewModelFactory.getChatViewModel(), loginObject);
+//
+//      currentScene = new Scene(parent);
+//      primaryStage.setScene(currentScene);
+//      primaryStage.setTitle("Chat");
+//      primaryStage.show();
+
+      ViewController chatController = fxmlLoader.getController();
+      chatController.init(this, viewModelFactory.getChatViewModel(), loginObject);
+
+      Scene chatScene = new Scene(parent);
+      Stage chatStage = new Stage();
+      chatStage.setScene(chatScene);
+      chatStage.setTitle("Chat");
+      chatStage.show();
     }
     catch (IOException e)
     {
@@ -138,6 +127,8 @@ public class ViewHandler
       System.out.println("! ->wrong path");
     }
   }
+
+
 
 
   private void closeWindowEvent(WindowEvent event) {

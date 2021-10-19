@@ -2,8 +2,6 @@ package client.model;
 
 import client.networking.Client;
 import shared.MessageObject;
-import shared.TransferObject;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -14,14 +12,27 @@ public class ChatModelManager implements Model
   private Client client;
   private PropertyChangeSupport changeSupport;
 
-  public ChatModelManager(Client c)
+  public ChatModelManager(Client client)
   {
-    client = c;
+    this.client = client;
     changeSupport = new PropertyChangeSupport(this);
 
     //subscription
-    client.addListener("chat", this::receiveMsg);
+    this.client.addListener("chat", this::receiveMsg);
+    this.client.addListener("cnct", this::updateActiveMembers);
   }
+
+
+  @Override public void requestConnections()
+  {
+    client.requestConnections();
+  }
+
+  private void updateActiveMembers(PropertyChangeEvent evt)
+  {
+    changeSupport.firePropertyChange(evt);
+  }
+
 
   public void receiveMsg(PropertyChangeEvent evt)
   {
@@ -34,20 +45,19 @@ public class ChatModelManager implements Model
   }
 
 
+  @Override public void addListener(String eventName, PropertyChangeListener listener)
+  {
+    changeSupport.addPropertyChangeListener(eventName, listener);
+  }
+  @Override public void removeListener(String eventName, PropertyChangeListener listener)
+  {
+    changeSupport.removePropertyChangeListener(eventName, listener);
+  }
 
-  @Override public void addListener(String eventName,
-      PropertyChangeListener listener)
-  {
-    changeSupport.addPropertyChangeListener(listener);
-  }
-  @Override public void removeListener(String eventName,
-      PropertyChangeListener listener)
-  {
-    changeSupport.removePropertyChangeListener(listener);
-  }
 
   @Override public void disconnect()
   {
     client.disconnect();
   }
+
 }

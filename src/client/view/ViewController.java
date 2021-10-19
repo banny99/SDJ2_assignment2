@@ -10,10 +10,9 @@ public interface ViewController
 {
   void init(ViewHandler vh, LoginViewModel lvm);
 
-  void init(ViewHandler vh, ChatViewModel cvm);
   void init(ViewHandler vh, ChatViewModel cvm, LoginObject loginObject);
 
-  void init(ViewHandler vh, FriendListViewModel fvm);
+  void init(ViewHandler vh, FriendListViewModel fvm, LoginObject loggedUser);
 
   void closeWindow();
 

@@ -19,7 +19,12 @@
                   <Font size="25.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" top="10.0" />
+                  <Insets left="10.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="loggedUserLabel" text="logged-in as: ">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" />
                </VBox.margin>
             </Label>
             <TableView fx:id="activeConnectionsTab" editable="true" prefHeight="337.0" prefWidth="300.0">
@@ -30,7 +35,7 @@
             </TableView>
             <HBox alignment="CENTER" prefHeight="0.0" prefWidth="300.0">
                <children>
-                  <Button mnemonicParsing="false" text="Select" />
+                  <Button mnemonicParsing="false" onAction="#openChatButtonPressed" text="Open Chat" />
                </children>
             </HBox>
          </children>

@@ -1,6 +1,6 @@
 package client.view.friendlist;
 
-import client.model.FriendListModel;
+import client.model.Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import shared.LoginObject;
@@ -9,15 +9,20 @@ import java.util.ArrayList;
 
 public class FriendListViewModel
 {
-  private FriendListModel friendListModel;
+  private Model friendListModel;
   private ObservableList<LoginObject> connectionsProperty;
 
-  public FriendListViewModel(FriendListModel friendListModel)
+  public FriendListViewModel(Model friendListModel)
   {
     this.friendListModel = friendListModel;
     connectionsProperty = FXCollections.observableArrayList();
 
     friendListModel.addListener("cnct", this::updateConnections);
+  }
+
+  public void requestConnections()
+  {
+    friendListModel.requestConnections();
   }
 
   private void updateConnections(PropertyChangeEvent evt)
@@ -34,10 +39,5 @@ public class FriendListViewModel
   public void disconnect()
   {
     friendListModel.disconnect();
-  }
-
-  public void requestConnections()
-  {
-    friendListModel.requestConnections();
   }
 }
