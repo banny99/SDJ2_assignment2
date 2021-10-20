@@ -25,10 +25,13 @@ public class ChatViewController implements ViewController
   @FXML private TableColumn<MessageObject, String> msgTC;
   @FXML private TableColumn<MessageObject, Time> timeTC;
   @FXML private TextArea chatTextField;
+  private String chatTxtFieldDefaultPrompt = "write your message here ... (to everyone)";
 
   private ViewHandler viewHandler;
   private ChatViewModel chatViewModel;
   private LoginObject loginObject;
+
+  private ArrayList<LoginObject> messageToList;
 
 
   public void init(ViewHandler vh, ChatViewModel cvm, LoginObject lo)
@@ -36,6 +39,7 @@ public class ChatViewController implements ViewController
     viewHandler = vh;
     chatViewModel = cvm;
     loginObject = lo;
+    messageToList = new ArrayList<>();
 
     //binding
     msgTC.setText(loginObject.getUsername());
@@ -43,6 +47,7 @@ public class ChatViewController implements ViewController
     timeTC.setCellValueFactory(new PropertyValueFactory<>("messageTimeStamp"));
     chatTable.setItems(chatViewModel.getTableContentProperty());
 
+    //choiceBox - string converter
     activeMembersChoiceBox.setConverter(new StringConverter<LoginObject>()
     {
       @Override public String toString(LoginObject loginObject)
@@ -56,6 +61,18 @@ public class ChatViewController implements ViewController
             ap.getUsername().equals(s)).findFirst().orElse(null);
       }
     });
+    //selection action
+    activeMembersChoiceBox.setOnAction(e -> {
+      LoginObject selectedItem = activeMembersChoiceBox.getSelectionModel().getSelectedItem();
+      if (selectedItem!=null && !messageToList.contains(selectedItem))
+      {
+        messageToList.add(selectedItem);
+        String msgTo = "write your message here ... (to: ";
+        for (LoginObject l : messageToList) {msgTo += l.getUsername()+",";}
+        msgTo += ")";
+        chatTextField.setPromptText(msgTo);
+      }
+    });
     activeMembersChoiceBox.setItems(chatViewModel.getActiveMembersProperty());
 
     chatViewModel.requestConnections();
@@ -67,14 +84,12 @@ public class ChatViewController implements ViewController
     String msg = chatTextField.getText();
     String sender = loginObject.getUsername();
 
-    ArrayList<LoginObject> tempArr = new ArrayList<>();
-    LoginObject tempObj = activeMembersChoiceBox.getValue();
-    if (tempObj != null) tempArr.add(tempObj);
-
-    MessageObject messageObject = new MessageObject(msg, sender, tempArr);
+    MessageObject messageObject = new MessageObject(msg, sender, messageToList);
     chatViewModel.sendMessage(messageObject);
 
     chatTextField.clear();
+    chatTextField.setPromptText(chatTxtFieldDefaultPrompt);
+    messageToList.clear();
     activeMembersChoiceBox.getSelectionModel().clearSelection();
   }
 

@@ -38,6 +38,7 @@ public class FriendListViewController implements ViewController
     loggedUserLabel.setText("(logged-in as: " + loggedUser.getUsername() + ")");
 
     friendListViewModel.requestConnections();
+    viewHandler.openChatView(loggedUser);
   }
 
 
@@ -61,5 +62,4 @@ public class FriendListViewController implements ViewController
   {
     friendListViewModel.disconnect();
   }
-
 }

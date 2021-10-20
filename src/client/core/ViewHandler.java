@@ -24,32 +24,16 @@ public class ViewHandler
   private Scene currentScene;
 
   private ViewController currController;
+  private ViewController chatController = null;
 
   public ViewHandler(ViewModelFactory vmf, Stage s){
     viewModelFactory = vmf;
     primaryStage = s;
-//    openView("login");
     openLoginView();
 
     primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
   }
 
-
-//  public void openView(String whichView)
-//  {
-//    switch (whichView){
-//      case "login":
-//        openLoginView();
-//        break;
-//      case "chat":
-//        openChatView();
-//        break;
-//      case "friendList":
-//        openFriendListView();
-//      default:
-//        break;
-//    }
-//  }
 
   private void openLoginView()
   {
@@ -104,15 +88,7 @@ public class ViewHandler
       fxmlLoader.setLocation(getClass().getResource("../view/chat/chat.fxml"));
       Parent parent = fxmlLoader.load();
 
-//      currController = fxmlLoader.getController();
-//      currController.init(this, viewModelFactory.getChatViewModel(), loginObject);
-//
-//      currentScene = new Scene(parent);
-//      primaryStage.setScene(currentScene);
-//      primaryStage.setTitle("Chat");
-//      primaryStage.show();
-
-      ViewController chatController = fxmlLoader.getController();
+      chatController = fxmlLoader.getController();
       chatController.init(this, viewModelFactory.getChatViewModel(), loginObject);
 
       Scene chatScene = new Scene(parent);
@@ -148,7 +124,11 @@ public class ViewHandler
       if (res.get().equals(ButtonType.CANCEL))
         event.consume();
       else
+      {
+        if (chatController != null)
+          chatController.closeWindow();
         currController.closeWindow();
+      }
     }
   }
 }

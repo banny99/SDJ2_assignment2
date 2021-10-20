@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import shared.LoginObject;
 import shared.MessageObject;
-
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 
@@ -34,7 +33,6 @@ public class ChatViewModel
 
   private void updateActiveMembers(PropertyChangeEvent evt)
   {
-    System.out.println((ArrayList<LoginObject>) evt.getNewValue());
     activeMembersProperty.setAll((ArrayList<LoginObject>) evt.getNewValue());
   }
 
