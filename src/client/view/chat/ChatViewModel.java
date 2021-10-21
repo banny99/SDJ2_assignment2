@@ -12,7 +12,7 @@ public class ChatViewModel
 {
   private final Model chatModelManager;
   private final ObservableList<MessageObject> tableContentProperty;
-  private ObservableList<LoginObject> activeMembersProperty;
+  private final ObservableList<LoginObject> activeMembersProperty;
 
   public ChatViewModel(Model cmm)
   {
@@ -53,7 +53,7 @@ public class ChatViewModel
     return tableContentProperty;
   }
 
-  public ObservableList getActiveMembersProperty()
+  public ObservableList<LoginObject> getActiveMembersProperty()
   {
     return activeMembersProperty;
   }

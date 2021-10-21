@@ -16,9 +16,9 @@ public class FriendListViewController implements ViewController
 {
 
   @FXML private Label loggedUserLabel;
-  @FXML private TableView activeConnectionsTab;
-  @FXML private TableColumn onlineFriendsCol;
-  @FXML private TableColumn timeCol;
+  @FXML private TableView<LoginObject> activeConnectionsTab;
+  @FXML private TableColumn<LoginObject, String> onlineFriendsCol;
+  @FXML private TableColumn<LoginObject, String> timeCol;
 
   private ViewHandler viewHandler;
   private FriendListViewModel friendListViewModel;
@@ -31,8 +31,8 @@ public class FriendListViewController implements ViewController
     friendListViewModel = fvm;
     this.loggedUser = loggedUser;
 
-    onlineFriendsCol.setCellValueFactory(new PropertyValueFactory<LoginObject, String>("username"));
-    timeCol.setCellValueFactory(new PropertyValueFactory<LoginObject, String>("timeStamp"));
+    onlineFriendsCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+    timeCol.setCellValueFactory(new PropertyValueFactory<>("timeStamp"));
     activeConnectionsTab.setItems(friendListViewModel.getConnectionsProperty());
 
     loggedUserLabel.setText("(logged-in as: " + loggedUser.getUsername() + ")");

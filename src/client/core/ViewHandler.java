@@ -1,9 +1,6 @@
 package client.core;
 
 import client.view.ViewController;
-import client.view.chat.ChatViewController;
-import client.view.friendlist.FriendListViewController;
-import client.view.login.LoginViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,18 +10,17 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import shared.LoginObject;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class ViewHandler
 {
-  private ViewModelFactory viewModelFactory;
+  private final ViewModelFactory viewModelFactory;
 
-  private Stage primaryStage;
+  private final Stage primaryStage;
   private Scene currentScene;
-
   private ViewController currController;
-  private ViewController chatController = null;
+
+  private Stage chatStage;
 
   public ViewHandler(ViewModelFactory vmf, Stage s){
     viewModelFactory = vmf;
@@ -88,11 +84,11 @@ public class ViewHandler
       fxmlLoader.setLocation(getClass().getResource("../view/chat/chat.fxml"));
       Parent parent = fxmlLoader.load();
 
-      chatController = fxmlLoader.getController();
+      ViewController chatController = fxmlLoader.getController();
       chatController.init(this, viewModelFactory.getChatViewModel(), loginObject);
 
       Scene chatScene = new Scene(parent);
-      Stage chatStage = new Stage();
+      chatStage = new Stage();
       chatStage.setScene(chatScene);
       chatStage.setTitle("Chat");
       chatStage.show();
@@ -110,24 +106,23 @@ public class ViewHandler
   private void closeWindowEvent(WindowEvent event) {
     System.out.println("Window close request ...");
 
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.getButtonTypes().remove(ButtonType.OK);
-    alert.getButtonTypes().add(ButtonType.CANCEL);
-    alert.getButtonTypes().add(ButtonType.YES);
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     alert.setTitle("Quit application");
-    alert.setContentText(String.format("Close without saving?"));
+    alert.setContentText("Close without saving?");
     alert.initOwner(primaryStage.getOwner());
     Optional<ButtonType> res = alert.showAndWait();
 
     if(res.isPresent())
     {
-      if (res.get().equals(ButtonType.CANCEL))
-        event.consume();
+      if (res.get().equals(ButtonType.OK))
+      {
+        if (chatStage != null)
+          chatStage.close();
+        currController.closeWindow();
+      }
       else
       {
-        if (chatController != null)
-          chatController.closeWindow();
-        currController.closeWindow();
+        event.consume();
       }
     }
   }

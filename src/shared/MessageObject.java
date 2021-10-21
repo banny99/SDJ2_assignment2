@@ -28,7 +28,7 @@ public class MessageObject implements Serializable
 
   public String getMessageText()
   {
-    return sender + ":\n" + messageText;
+    return "["+sender+"]:\n" + messageText;
   }
   public Time getMessageTimeStamp()
   {

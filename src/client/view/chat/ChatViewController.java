@@ -6,10 +6,7 @@ import client.view.friendlist.FriendListViewModel;
 import client.view.login.LoginViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 import shared.LoginObject;
@@ -25,13 +22,14 @@ public class ChatViewController implements ViewController
   @FXML private TableColumn<MessageObject, String> msgTC;
   @FXML private TableColumn<MessageObject, Time> timeTC;
   @FXML private TextArea chatTextField;
-  private String chatTxtFieldDefaultPrompt = "write your message here ... (to everyone)";
+  @FXML private Label messageTo_label;
+  private String messageTo_defaultLabelText = "(to: everyone)";
 
   private ViewHandler viewHandler;
   private ChatViewModel chatViewModel;
   private LoginObject loginObject;
 
-  private ArrayList<LoginObject> messageToList;
+  private ArrayList<LoginObject> messageTo_list;
 
 
   public void init(ViewHandler vh, ChatViewModel cvm, LoginObject lo)
@@ -39,7 +37,7 @@ public class ChatViewController implements ViewController
     viewHandler = vh;
     chatViewModel = cvm;
     loginObject = lo;
-    messageToList = new ArrayList<>();
+    messageTo_list = new ArrayList<>();
 
     //binding
     msgTC.setText(loginObject.getUsername());
@@ -62,35 +60,44 @@ public class ChatViewController implements ViewController
       }
     });
     //selection action
-    activeMembersChoiceBox.setOnAction(e -> {
-      LoginObject selectedItem = activeMembersChoiceBox.getSelectionModel().getSelectedItem();
-      if (selectedItem!=null && !messageToList.contains(selectedItem))
-      {
-        messageToList.add(selectedItem);
-        String msgTo = "write your message here ... (to: ";
-        for (LoginObject l : messageToList) {msgTo += l.getUsername()+",";}
-        msgTo += ")";
-        chatTextField.setPromptText(msgTo);
-      }
-    });
+    activeMembersChoiceBox.setOnAction(this::messageTo_selection);
     activeMembersChoiceBox.setItems(chatViewModel.getActiveMembersProperty());
 
     chatViewModel.requestConnections();
   }
 
+  private void messageTo_selection(ActionEvent actionEvent)
+  {
+    LoginObject selectedItem = activeMembersChoiceBox.getSelectionModel().getSelectedItem();
+    if (selectedItem!=null && !messageTo_list.contains(selectedItem))
+    {
+      messageTo_list.add(selectedItem);
+      String msgTo = "(to: ";
+      for (LoginObject l : messageTo_list) {msgTo += l.getUsername()+",";}
+      msgTo += ")";
+      messageTo_label.setText(msgTo);
+    }
+  }
 
   public void sendMsgButtonPressed(ActionEvent actionEvent)
   {
     String msg = chatTextField.getText();
     String sender = loginObject.getUsername();
 
-    MessageObject messageObject = new MessageObject(msg, sender, messageToList);
+    MessageObject messageObject = new MessageObject(msg, sender, messageTo_list);
     chatViewModel.sendMessage(messageObject);
 
     chatTextField.clear();
-    chatTextField.setPromptText(chatTxtFieldDefaultPrompt);
-    messageToList.clear();
+    messageTo_label.setText(messageTo_defaultLabelText);
+    messageTo_list.clear();
     activeMembersChoiceBox.getSelectionModel().clearSelection();
+  }
+
+  public void clearButtonPressed(ActionEvent actionEvent)
+  {
+    messageTo_list.clear();
+    activeMembersChoiceBox.getSelectionModel().clearSelection();
+    messageTo_label.setText(messageTo_defaultLabelText);
   }
 
 
@@ -106,6 +113,7 @@ public class ChatViewController implements ViewController
 
   @Override public void closeWindow()
   {
-    chatViewModel.disconnect();
+//    chatViewModel.disconnect();
+    this.closeWindow();
   }
 }
