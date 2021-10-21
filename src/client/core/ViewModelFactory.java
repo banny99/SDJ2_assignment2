@@ -6,7 +6,7 @@ import client.view.login.LoginViewModel;
 
 public class ViewModelFactory
 {
-  private ModelFactory modelFactory;
+  private final ModelFactory modelFactory;
 
   public ViewModelFactory(ModelFactory modelFactory)
   {

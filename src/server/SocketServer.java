@@ -1,19 +1,17 @@
 package server;
 
 import shared.Observable;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class SocketServer implements Observable
 {
 
-  private PropertyChangeSupport changeSupport;
-  private ConnectionPool connectionPool;
+  private final PropertyChangeSupport changeSupport;
+  private final ConnectionPool connectionPool;
 
   public SocketServer()
   {

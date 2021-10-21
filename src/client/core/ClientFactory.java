@@ -3,6 +3,8 @@ package client.core;
 import client.networking.Client;
 import client.networking.ClientSocket;
 
+import java.net.UnknownHostException;
+
 public class ClientFactory
 {
   private Client client;
@@ -10,8 +12,14 @@ public class ClientFactory
   public Client getClient()
   {
     if (client == null){
-      client = new ClientSocket();
-//      client = new ClientSocket("localhost", 4444);
+      try
+      {
+        client = new ClientSocket();
+      }
+      catch (UnknownHostException e)
+      {
+        e.printStackTrace();
+      }
     }
     return client;
   }

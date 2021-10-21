@@ -5,9 +5,9 @@ import java.sql.Time;
 
 public class LoginObject implements Serializable
 {
-  private String username;
-  private String password;
-  private Time timeStamp;
+  private final String username;
+  private final String password;
+  private final Time timeStamp;
 
   public LoginObject(String username, String password)
   {
@@ -33,10 +33,9 @@ public class LoginObject implements Serializable
 
   public boolean equals(Object o)
   {
-    if (!(o instanceof LoginObject))
+    if (!(o instanceof LoginObject other))
       return false;
 
-    LoginObject other = (LoginObject) o;
     return this.username.equals(other.username)
         && this.password.equals(other.password);
   }

@@ -6,17 +6,11 @@ import java.util.ArrayList;
 
 public class MessageObject implements Serializable
 {
-  private String messageText;
-  private Time messageTimeStamp;
-  private String sender;
+  private final String messageText;
+  private final Time messageTimeStamp;
+  private final String sender;
   private ArrayList<LoginObject> chatMembers;
 
-  public MessageObject(String msg, String sender)
-  {
-    messageText = msg;
-    messageTimeStamp = new Time(System.currentTimeMillis());
-    this.sender = sender;
-  }
 
   public MessageObject(String msg, String sender, ArrayList<LoginObject> chatMembers)
   {
@@ -26,10 +20,12 @@ public class MessageObject implements Serializable
     this.chatMembers = chatMembers;
   }
 
+
   public String getMessageText()
   {
     return "["+sender+"]:\n" + messageText;
   }
+
   public Time getMessageTimeStamp()
   {
     return messageTimeStamp;
@@ -39,6 +35,7 @@ public class MessageObject implements Serializable
   {
     return chatMembers;
   }
+
 
   @Override public String toString()
   {

@@ -4,7 +4,7 @@ import client.model.*;
 
 public class ModelFactory
 {
-  private ClientFactory clientFactory;
+  private final ClientFactory clientFactory;
   public ModelFactory(ClientFactory cf)
   {
     clientFactory = cf;

@@ -23,7 +23,7 @@ public class ChatViewController implements ViewController
   @FXML private TableColumn<MessageObject, Time> timeTC;
   @FXML private TextArea chatTextField;
   @FXML private Label messageTo_label;
-  private String messageTo_defaultLabelText = "(to: everyone)";
+  private final String messageTo_defaultLabelText = "(to: everyone)";
 
   private ViewHandler viewHandler;
   private ChatViewModel chatViewModel;
@@ -46,7 +46,7 @@ public class ChatViewController implements ViewController
     chatTable.setItems(chatViewModel.getTableContentProperty());
 
     //choiceBox - string converter
-    activeMembersChoiceBox.setConverter(new StringConverter<LoginObject>()
+    activeMembersChoiceBox.setConverter(new StringConverter<>()
     {
       @Override public String toString(LoginObject loginObject)
       {
@@ -72,10 +72,14 @@ public class ChatViewController implements ViewController
     if (selectedItem!=null && !messageTo_list.contains(selectedItem))
     {
       messageTo_list.add(selectedItem);
-      String msgTo = "(to: ";
-      for (LoginObject l : messageTo_list) {msgTo += l.getUsername()+",";}
-      msgTo += ")";
-      messageTo_label.setText(msgTo);
+
+      StringBuilder msgTo = new StringBuilder("(to: ");
+      for (LoginObject l : messageTo_list) {
+        msgTo.append(l.getUsername()).append(",");}
+      msgTo.append(")");
+      messageTo_label.setText(msgTo.toString());
+
+      activeMembersChoiceBox.getSelectionModel().clearSelection();
     }
   }
 
@@ -84,8 +88,10 @@ public class ChatViewController implements ViewController
     String msg = chatTextField.getText();
     String sender = loginObject.getUsername();
 
-    MessageObject messageObject = new MessageObject(msg, sender, messageTo_list);
-    chatViewModel.sendMessage(messageObject);
+    if (activeMembersChoiceBox.getItems().containsAll(messageTo_list)){
+      MessageObject messageObject = new MessageObject(msg, sender, messageTo_list);
+      chatViewModel.sendMessage(messageObject);
+    }
 
     chatTextField.clear();
     messageTo_label.setText(messageTo_defaultLabelText);
@@ -110,10 +116,8 @@ public class ChatViewController implements ViewController
     //nothing
   }
 
-
   @Override public void closeWindow()
   {
-//    chatViewModel.disconnect();
-    this.closeWindow();
+    //nothing
   }
 }

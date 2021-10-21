@@ -9,15 +9,13 @@ import java.net.Socket;
 
 public class ClientCommunicationHandler extends Thread
 {
-  private Socket socket;
-  private ClientSocket client;
+  private final ClientSocket client;
   private DataInputStream in;
   private DataOutputStream out;
-  private Gson gson;
+  private final Gson gson;
 
   public ClientCommunicationHandler(Socket socket, ClientSocket client)
   {
-    this.socket = socket;
     this.client = client;
     gson = new Gson();
 

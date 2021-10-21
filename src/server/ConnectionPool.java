@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ConnectionPool implements Observable
 {
-  private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+  private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
   @Override public void addListener(String eventName, PropertyChangeListener listener)
   {
@@ -22,8 +22,8 @@ public class ConnectionPool implements Observable
   }
 
 
-  private ArrayList<ServerSocketThread> listeners = new ArrayList<>();
-  private ArrayList<LoginObject> activeUsers = new ArrayList<>();
+  private final ArrayList<ServerSocketThread> listeners = new ArrayList<>();
+  private final ArrayList<LoginObject> activeUsers = new ArrayList<>();
 
   public void addListener(ServerSocketThread t, LoginObject user)
   {

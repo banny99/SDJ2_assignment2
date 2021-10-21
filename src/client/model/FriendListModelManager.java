@@ -9,8 +9,8 @@ import java.beans.PropertyChangeSupport;
 
 public class FriendListModelManager implements Model
 {
-  private Client client;
-  private PropertyChangeSupport changeSupport;
+  private final Client client;
+  private final PropertyChangeSupport changeSupport;
 
   public FriendListModelManager(Client client)
   {

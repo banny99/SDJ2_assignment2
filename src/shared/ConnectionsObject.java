@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ConnectionsObject
 {
-  private ArrayList<LoginObject> currConnections;
+  private final ArrayList<LoginObject> currConnections;
 
   public ConnectionsObject(ArrayList<LoginObject> currConnections)
   {

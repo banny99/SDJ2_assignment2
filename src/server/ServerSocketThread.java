@@ -12,11 +12,11 @@ import java.net.Socket;
 
 public class ServerSocketThread extends Thread
 {
-  private Socket socket;
+  private final Socket socket;
   private DataInputStream inputStream;
   private DataOutputStream outputStream;
-  private ConnectionPool connectionPool;
-  private Gson gson;
+  private final ConnectionPool connectionPool;
+  private final Gson gson;
 
   private LoginObject loggedUser;
 
@@ -72,8 +72,8 @@ public class ServerSocketThread extends Thread
 
           try
           {
-            Username username = new Username(loggedUser.getUsername());
-            Password password = new Password(loggedUser.getPassword());
+            new Username(loggedUser.getUsername());
+            new Password(loggedUser.getPassword());
             reply = "approved";
           }
           catch (IllegalArgumentException e){

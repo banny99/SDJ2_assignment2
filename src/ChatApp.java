@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class ChatApp extends Application
 {
-  @Override public void start(Stage stage) throws Exception
+  @Override public void start(Stage stage)
   {
     ClientFactory cf = new ClientFactory();
     //    ↓
@@ -16,5 +16,6 @@ public class ChatApp extends Application
     ViewModelFactory vmf = new ViewModelFactory(mf);
     //    ↓
     ViewHandler vh = new ViewHandler(vmf, stage);
+    vh.start();
   }
 }

@@ -17,19 +17,20 @@ public class ViewHandler
   private final ViewModelFactory viewModelFactory;
 
   private final Stage primaryStage;
+  private Stage chatStage;
   private Scene currentScene;
   private ViewController currController;
 
-  private Stage chatStage;
 
   public ViewHandler(ViewModelFactory vmf, Stage s){
     viewModelFactory = vmf;
     primaryStage = s;
-    openLoginView();
-
-    primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
   }
 
+  public void start()
+  {
+    openLoginView();
+  }
 
   private void openLoginView()
   {
@@ -51,7 +52,10 @@ public class ViewHandler
       e.printStackTrace();
       System.out.println("! ->wrong path");
     }
+
+    primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
   }
+
 
   public void openFriendListView(LoginObject loginObject)
   {
@@ -99,7 +103,6 @@ public class ViewHandler
       System.out.println("! ->wrong path");
     }
   }
-
 
 
 

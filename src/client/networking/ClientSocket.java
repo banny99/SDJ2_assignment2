@@ -5,26 +5,28 @@ import shared.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class ClientSocket implements Client
 {
   private final PropertyChangeSupport changeSupport;
-  private Gson gson;
-
-  private Socket clientSocket;
+  private final Gson gson;
   private ClientCommunicationHandler handler;
+  private InetAddress address;
   
 
-  public ClientSocket()
+  public ClientSocket() throws UnknownHostException
   {
     changeSupport = new PropertyChangeSupport(this);
     gson = new Gson();
+    address = InetAddress.getLocalHost();
 
     try
     {
-      clientSocket = new Socket("localhost", 4444);
-      handler = new ClientCommunicationHandler(clientSocket, this);
+      handler = new ClientCommunicationHandler(new Socket(address.getHostName(), 4444), this);
       handler.setDaemon(true);
     }
     catch (IOException e)

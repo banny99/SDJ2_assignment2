@@ -7,8 +7,8 @@ import java.beans.PropertyChangeSupport;
 
 public class LoginModelManager implements LoginModel
 {
-  private Client client;
-  private PropertyChangeSupport changeSupport;
+  private final Client client;
+  private final PropertyChangeSupport changeSupport;
 
   public LoginModelManager(Client c)
   {

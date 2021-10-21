@@ -2,8 +2,8 @@ package shared;
 
 public class TransferObject
 {
-  private String type;
-  private String contentClass;
+  private final String type;
+  private final String contentClass;
 
   public TransferObject(String type, String content)
   {

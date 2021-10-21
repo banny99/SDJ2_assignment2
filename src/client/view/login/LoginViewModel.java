@@ -1,20 +1,16 @@
 package client.view.login;
 
 import client.model.LoginModel;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import shared.LoginObject;
 import shared.Observable;
-
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class LoginViewModel implements Observable
 {
 
-  private PropertyChangeSupport changeSupport;
-  private LoginModel loginModel;
+  private final PropertyChangeSupport changeSupport;
+  private final LoginModel loginModel;
 
 
   public LoginViewModel(LoginModel loginModel)
