@@ -47,9 +47,8 @@ public class ServerSocketThread extends Thread
       System.out.println(" ->user logged in");
 
       chat();
-
-      System.out.println(" ->client disconnected : " + socket.getPort());
     }
+    System.out.println(" ->client disconnected : " + socket.getPort());
   }
 
 
