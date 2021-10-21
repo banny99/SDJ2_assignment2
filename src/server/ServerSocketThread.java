@@ -39,18 +39,17 @@ public class ServerSocketThread extends Thread
 
   @Override public void run()
   {
-    System.out.println("Server communication-socket running ...");
+    System.out.println(" ->Server communication-socket running ...");
 
     if (login())
     {
       connectionPool.addListener(this, loggedUser);
-      System.out.println("user logged in");
+      System.out.println(" ->user logged in");
 
       chat();
 
-      System.out.println("client disconnected : " + socket.getPort());
+      System.out.println(" ->client disconnected : " + socket.getPort());
     }
-
   }
 
 
@@ -65,6 +64,7 @@ public class ServerSocketThread extends Thread
         String jsonRequest = inputStream.readUTF();
         TransferObject transferObject = gson.fromJson(jsonRequest, TransferObject.class);
 
+        //Logging in
         if (transferObject.getType().equals("LO"))
         {
           loggedUser = gson.fromJson(transferObject.getContentClass(), LoginObject.class);
@@ -81,9 +81,9 @@ public class ServerSocketThread extends Thread
           }
 
           outputStream.writeUTF(reply);
-          System.out.println(reply);
         }
 
+        //exit - app closing before log in approved
         else
         {
           return false;
@@ -110,16 +110,19 @@ public class ServerSocketThread extends Thread
         String jsonRequest = inputStream.readUTF();
         TransferObject transferObject = gson.fromJson(jsonRequest, TransferObject.class);
 
+        //chat = message sent
         if (transferObject.getType().equals("MSG"))
         {
           MessageObject messageObject = gson.fromJson(transferObject.getContentClass(), MessageObject.class);
           System.out.println(messageObject);
           connectionPool.broadcastMessage(messageObject);
         }
+        //connections update
         else if (transferObject.getType().equals("CNCT"))
         {
           connectionPool.broadcastActiveUsers(this);
         }
+        //exit = disconnecting
         else
         {
           connectionPool.removeListener(this);

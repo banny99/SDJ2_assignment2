@@ -13,6 +13,7 @@ public class ViewModelFactory
     this.modelFactory = modelFactory;
   }
 
+
   private LoginViewModel loginViewModel;
   public LoginViewModel getLoginViewModel()
   {
@@ -24,7 +25,7 @@ public class ViewModelFactory
   private ChatViewModel chatViewModel;
   public ChatViewModel getChatViewModel(){
     if (chatViewModel == null)
-      chatViewModel = new ChatViewModel(modelFactory.getChatModel());
+      chatViewModel = new ChatViewModel(modelFactory.getModel());
     return chatViewModel;
   }
 
@@ -32,8 +33,7 @@ public class ViewModelFactory
   public FriendListViewModel getFriendListViewModel()
   {
     if (friendListViewModel == null)
-      friendListViewModel = new FriendListViewModel(modelFactory.getModel());
+    friendListViewModel = new FriendListViewModel(modelFactory.getModel());
     return friendListViewModel;
   }
-
 }

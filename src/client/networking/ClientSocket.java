@@ -6,7 +6,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -26,7 +25,8 @@ public class ClientSocket implements Client
 
     try
     {
-      handler = new ClientCommunicationHandler(new Socket(address.getHostName(), 4444), this);
+      Socket socket = new Socket(address.getHostName(), 4444);
+      handler = new ClientCommunicationHandler(socket, this);
       handler.setDaemon(true);
     }
     catch (IOException e)
@@ -76,7 +76,7 @@ public class ClientSocket implements Client
     {
       MessageObject messageObject = gson.fromJson(transferObject.getContentClass(), MessageObject.class);
       System.out.println("received: " + messageObject);
-      changeSupport.firePropertyChange("chat", null, messageObject);
+      changeSupport.firePropertyChange("msg", null, messageObject);
     }
     //active users update (connections)
     else if (transferObject.getType().equals("CNCT"))

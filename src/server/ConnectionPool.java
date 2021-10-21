@@ -3,24 +3,10 @@ package server;
 import shared.ConnectionsObject;
 import shared.LoginObject;
 import shared.MessageObject;
-import shared.Observable;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
-public class ConnectionPool implements Observable
+public class ConnectionPool
 {
-  private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
-
-  @Override public void addListener(String eventName, PropertyChangeListener listener)
-  {
-    changeSupport.addPropertyChangeListener(eventName, listener);
-  }
-  @Override public void removeListener(String eventName, PropertyChangeListener listener)
-  {
-    changeSupport.removePropertyChangeListener(eventName, listener);
-  }
-
 
   private final ArrayList<ServerSocketThread> listeners = new ArrayList<>();
   private final ArrayList<LoginObject> activeUsers = new ArrayList<>();
@@ -43,28 +29,31 @@ public class ConnectionPool implements Observable
   public void broadcastMessage(MessageObject messageObject)
   {
     ArrayList<LoginObject> tempMembers = messageObject.getChatMembers();
-    System.out.println(tempMembers + " :" + tempMembers.size());
 
     if (tempMembers.isEmpty())
     {
+      System.out.println(" -broadcasting msg to: everyone");
+
       for (ServerSocketThread t : listeners)
       {
         t.sendMessage(messageObject);
       }
     }
+
     else
     {
-      System.out.println(listeners.size() + "," + activeUsers.size());
+      System.out.print(" -broadcasting msg to: ");
 
-      for (LoginObject l : tempMembers)
-      {
-        for (int i=0; i<listeners.size(); i++)
-        {
+      for (LoginObject l : tempMembers) {
+        for (int i=0; i<listeners.size(); i++) {
           if (l.equals(activeUsers.get(i)))
+          {
             listeners.get(i).sendMessage(messageObject);
+            System.out.print(l.getUsername() + ", ");
+          }
         }
       }
-
+      System.out.println();
     }
   }
 

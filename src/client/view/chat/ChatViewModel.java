@@ -21,7 +21,7 @@ public class ChatViewModel
     activeMembersProperty = FXCollections.observableArrayList();
 
     //subscription
-    chatModelManager.addListener("chat", this::receiveMsg);
+    chatModelManager.addListener("msg", this::receiveMsg);
     chatModelManager.addListener("cnct", this::updateActiveMembers);
   }
 
