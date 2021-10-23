@@ -4,6 +4,7 @@ import client.core.ViewHandler;
 import client.view.ViewController;
 import client.view.friendlist.FriendListViewModel;
 import client.view.login.LoginViewModel;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -32,7 +33,7 @@ public class ChatViewController implements ViewController
   private ArrayList<LoginObject> messageTo_list;
 
 
-  public void init(ViewHandler vh, ChatViewModel cvm, LoginObject lo)
+  @Override public void init(ViewHandler vh, ChatViewModel cvm, LoginObject lo)
   {
     viewHandler = vh;
     chatViewModel = cvm;
@@ -59,7 +60,7 @@ public class ChatViewController implements ViewController
             ap.getUsername().equals(s)).findFirst().orElse(null);
       }
     });
-    //selection action
+    //on-select action
     activeMembersChoiceBox.setOnAction(this::messageTo_selection);
     activeMembersChoiceBox.setItems(chatViewModel.getActiveMembersProperty());
 

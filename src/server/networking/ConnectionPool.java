@@ -1,4 +1,4 @@
-package server;
+package server.networking;
 
 import shared.ConnectionsObject;
 import shared.LoginObject;

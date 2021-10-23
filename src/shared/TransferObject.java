@@ -3,12 +3,12 @@ package shared;
 public class TransferObject
 {
   private final String type;
-  private final String contentClass;
+  private final String nestedObjectJson;
 
   public TransferObject(String type, String content)
   {
     this.type = type;
-    this.contentClass = content;
+    this.nestedObjectJson = content;
   }
 
   public String getType()
@@ -16,14 +16,14 @@ public class TransferObject
     return type;
   }
 
-  public String getContentClass()
+  public String getNestedObjectJson()
   {
-    return contentClass;
+    return nestedObjectJson;
   }
 
   @Override public String toString()
   {
     return "TransferObject{" + "type='" + type + '\'' + ", contentClass='"
-        + contentClass + '\'' + '}';
+        + nestedObjectJson + '\'' + '}';
   }
 }

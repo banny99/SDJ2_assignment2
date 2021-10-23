@@ -1,4 +1,4 @@
-package server;
+package server.networking;
 
 import com.google.gson.Gson;
 import server.model.Password;
@@ -66,7 +66,7 @@ public class ServerSocketThread extends Thread
         //Logging in
         if (transferObject.getType().equals("LO"))
         {
-          loggedUser = gson.fromJson(transferObject.getContentClass(), LoginObject.class);
+          loggedUser = gson.fromJson(transferObject.getNestedObjectJson(), LoginObject.class);
           System.out.println(loggedUser);
 
           try
@@ -112,7 +112,7 @@ public class ServerSocketThread extends Thread
         //chat = message sent
         if (transferObject.getType().equals("MSG"))
         {
-          MessageObject messageObject = gson.fromJson(transferObject.getContentClass(), MessageObject.class);
+          MessageObject messageObject = gson.fromJson(transferObject.getNestedObjectJson(), MessageObject.class);
           System.out.println(messageObject);
           connectionPool.broadcastMessage(messageObject);
         }

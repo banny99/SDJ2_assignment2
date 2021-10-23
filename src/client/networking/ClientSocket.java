@@ -74,14 +74,14 @@ public class ClientSocket implements Client
     //message(chat)
     if (transferObject.getType().equals("MSG"))
     {
-      MessageObject messageObject = gson.fromJson(transferObject.getContentClass(), MessageObject.class);
+      MessageObject messageObject = gson.fromJson(transferObject.getNestedObjectJson(), MessageObject.class);
       System.out.println("received: " + messageObject);
       changeSupport.firePropertyChange("msg", null, messageObject);
     }
     //active users update (connections)
     else if (transferObject.getType().equals("CNCT"))
     {
-      ConnectionsObject connectionsObject = gson.fromJson(transferObject.getContentClass(), ConnectionsObject.class);
+      ConnectionsObject connectionsObject = gson.fromJson(transferObject.getNestedObjectJson(), ConnectionsObject.class);
       System.out.println("updated connections: " + connectionsObject);
       changeSupport.firePropertyChange("cnct", null, connectionsObject.getCurrConnections());
     }

@@ -37,12 +37,19 @@ public class LoginViewController implements ViewController
       System.out.println("logged in");
 
       viewHandler.openFriendListView(loginObject);
-//      viewHandler.openChatView(loginObject);
     }
     catch (DeniedLoginException e)
     {
+      String message = e.getMessage();
+      String labelText = "";
+      for (int i=0; i<message.length(); i++){
+        if (i>0 && i%53 == 0)
+          labelText += "\n";
+        labelText += message.charAt(i);
+      }
+
       messageLabel.setVisible(true);
-      messageLabel.setText("! " + e.getMessage());
+      messageLabel.setText("! " + labelText);
     }
   }
 
