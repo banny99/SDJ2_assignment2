@@ -38,13 +38,12 @@ public class FriendListViewController implements ViewController
     loggedUserLabel.setText("(logged-in as: " + loggedUser.getUsername() + ")");
 
     friendListViewModel.requestConnections();
-    viewHandler.openChatView(loggedUser);
   }
 
 
   public void openChatButtonPressed(ActionEvent actionEvent)
   {
-    viewHandler.openChatView(loggedUser);
+    viewHandler.openChatView();
   }
 
 

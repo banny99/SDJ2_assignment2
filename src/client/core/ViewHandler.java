@@ -16,9 +16,12 @@ public class ViewHandler
 {
   private final ViewModelFactory viewModelFactory;
 
-  private final Stage primaryStage;
-  private Stage chatStage;
+  private Stage primaryStage;
+
   private Scene currentScene;
+  private Scene chatScene;
+  private Scene friendListScene;
+
   private ViewController currController;
 
 
@@ -56,8 +59,14 @@ public class ViewHandler
     primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
   }
 
+  public void afterLoginApprovedAction(LoginObject loginObject)
+  {
+    startFriendListView(loginObject);
+    startChatView(loginObject);
+    openFriendListView();
+  }
 
-  public void openFriendListView(LoginObject loginObject)
+  public void startFriendListView(LoginObject loginObject)
   {
     try
     {
@@ -67,10 +76,7 @@ public class ViewHandler
       currController = fxmlLoader.getController();
       currController.init(this, viewModelFactory.getFriendListViewModel(), loginObject);
 
-      currentScene = new Scene(parent);
-      primaryStage.setScene(currentScene);
-      primaryStage.setTitle("Friend list");
-      primaryStage.show();
+      friendListScene = new Scene(parent);
     }
     catch (IOException e)
     {
@@ -79,8 +85,14 @@ public class ViewHandler
     }
   }
 
+  public void openFriendListView()
+  {
+    primaryStage.setScene(friendListScene);
+    primaryStage.setTitle("Friend List");
+    primaryStage.show();
+  }
 
-  public void openChatView(LoginObject loginObject)
+  public void startChatView(LoginObject loginObject)
   {
     try
     {
@@ -91,17 +103,20 @@ public class ViewHandler
       ViewController chatController = fxmlLoader.getController();
       chatController.init(this, viewModelFactory.getChatViewModel(), loginObject);
 
-      Scene chatScene = new Scene(parent);
-      chatStage = new Stage();
-      chatStage.setScene(chatScene);
-      chatStage.setTitle("Chat");
-      chatStage.show();
+      chatScene = new Scene(parent);
     }
     catch (IOException e)
     {
       e.printStackTrace();
       System.out.println("! ->wrong path");
     }
+  }
+
+  public void openChatView()
+  {
+    primaryStage.setScene(chatScene);
+    primaryStage.setTitle("Chat");
+    primaryStage.show();
   }
 
 
@@ -119,8 +134,6 @@ public class ViewHandler
     {
       if (res.get().equals(ButtonType.OK))
       {
-        if (chatStage != null)
-          chatStage.close();
         currController.closeWindow();
       }
       else
@@ -129,4 +142,6 @@ public class ViewHandler
       }
     }
   }
+
+
 }

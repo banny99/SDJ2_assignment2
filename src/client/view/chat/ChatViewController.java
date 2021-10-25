@@ -84,6 +84,12 @@ public class ChatViewController implements ViewController
     }
   }
 
+
+  public void backButtonPressed(ActionEvent actionEvent)
+  {
+    viewHandler.openFriendListView();
+  }
+
   public void sendMsgButtonPressed(ActionEvent actionEvent)
   {
     String msg = chatTextField.getText();
@@ -119,6 +125,6 @@ public class ChatViewController implements ViewController
 
   @Override public void closeWindow()
   {
-    //nothing
+    chatViewModel.disconnect();
   }
 }

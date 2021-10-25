@@ -16,14 +16,23 @@
    <children>
       <VBox layoutY="-1.0" prefHeight="400.0" prefWidth="300.0">
          <children>
-            <Label text="Chat" textFill="#619ed4">
-               <font>
-                  <Font name="Malgun Gothic Bold" size="26.0" />
-               </font>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="300.0">
+               <children>
+                  <Label text="Chat" textFill="#619ed4">
+                     <font>
+                        <Font name="Malgun Gothic Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#backButtonPressed" text="back">
+                     <HBox.margin>
+                        <Insets left="190.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
                <VBox.margin>
-                  <Insets left="20.0" top="10.0" />
+                  <Insets left="5.0" right="5.0" />
                </VBox.margin>
-            </Label>
+            </HBox>
             <TableView fx:id="chatTable" editable="true" maxWidth="290.0" minWidth="290.0" prefHeight="243.0" prefWidth="290.0" style="-fx-border-color: #619dd4;">
               <columns>
                 <TableColumn fx:id="msgTC" prefWidth="220.0" text="name" />
